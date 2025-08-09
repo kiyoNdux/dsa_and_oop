@@ -1,37 +1,33 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
+int main() {
+    const int maxSize = 10; // Max capacity
+    int lengthOfArray = 4;  // Current number of elements
 
-    // Size of the Array
-    int lenthOfArray = 3;
+    string compScieSubjects[maxSize] = {
+        "Linear Algebra",
+        "Probability",
+        "Data Structures and Algorithms",
+        "OOP"
+    };
 
-    // Initialize Array
-    string compScieSubjects[lenthOfArray] = {"Linear Algebra", "Probability", "DataStructures and Algorithms", "OOP"};
-
-    // Before Array
+    // Before Append
     cout << "Before Array: ";
-    for (int i=0; i<lenthOfArray; i++) {
+    for (int i = 0; i < lengthOfArray; i++) {
         cout << compScieSubjects[i] << " ";
     }
-
-    string inputUserValue = "Calculus";
 
     // Append
-    for (int i=0; i<=lenthOfArray; i++) {
-        if (i == lenthOfArray) {
-            lenthOfArray = lenthOfArray + 1;
-            compScieSubjects[lenthOfArray] = inputUserValue;
-            break;
-        }
+    string newValue = "Calculus";
+    if (lengthOfArray < maxSize) {
+        compScieSubjects[lengthOfArray] = newValue;
+        lengthOfArray++;
     }
 
-    // After Array
+    // After Append
     cout << "\nAfter Array: ";
-    for (int i=0; i<lenthOfArray; i++) {
+    for (int i = 0; i < lengthOfArray; i++) {
         cout << compScieSubjects[i] << " ";
     }
-
-
 }
