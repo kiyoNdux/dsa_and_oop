@@ -1,34 +1,32 @@
 #include <iostream>
 using namespace std;
 
-int main()
-{
-    // User input
-    int userInputIndex = 0;
-    string inputUserValue = "Machine Learning";
+int main() {
 
-    // Initialize Array
-    string compScieSubjects[4] = {"Linear Algebra", "Probability", "DataStructures and Algorithms", "OOP"};
+    const int lengthOfArray = 4;
 
+    string compScieSubjects[lengthOfArray] = {
+        "Linear Algebra",
+        "Probability",
+        "Data Structures and Algorithms",
+        "OOP"
+    };
 
-    // Size of the Array
-    int lenthOfArray = 4;
-
+    int indexToReplace = 0; // Replace first element
+    string newValue = "Machine Learning";
 
     // Before Array
     cout << "Before Array: ";
-    for (int i=0; i<lenthOfArray; i++) {
+    for (int i = 0; i < lengthOfArray; i++) {
         cout << compScieSubjects[i] << " ";
     }
 
     // Replace
-    compScieSubjects[userInputIndex] = inputUserValue;
-
+    compScieSubjects[indexToReplace] = newValue;
 
     // After Array
     cout << "\nAfter Array: ";
-    for (int i=0; i<lenthOfArray; i++) {
+    for (int i = 0; i < lengthOfArray; i++) {
         cout << compScieSubjects[i] << " ";
     }
-
 }
