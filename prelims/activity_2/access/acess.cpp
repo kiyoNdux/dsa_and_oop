@@ -3,13 +3,12 @@ using namespace std;
 
 int main()
 {
-    // User input
-    int userInputIndex = 0;
-
     // Initialize Array
     string compScieSubjects[4] = {"Linear Algebra", "Probability", "DataStructures and Algorithms", "OOP"};
 
+    int indexToAcess= 0;
+
     // Access value in a specific Index
-    cout << compScieSubjects[userInputIndex];
+    cout << compScieSubjects[indexToAcess];
 
 }
