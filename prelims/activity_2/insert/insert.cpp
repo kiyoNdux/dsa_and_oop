@@ -3,35 +3,47 @@ using namespace std;
 
 int main()
 {
-    // User input
-    int userInputIndex = 1;
-    string inputUserValue = "Machine Learning";
+    const int maxSize = 10;
+    int lengthOfArray = 4; // currently used elements
 
-    // Size of the Array
-    int lenthOfArray = 4;
+    // Array Initialization
+    string compScieSubjects[maxSize] = {
+        "Linear Algebra",
+        "Probability",
+        "Data Structures and Algorithms",
+        "OOP"
+    };
 
-    // Initialize Array
-    string compScieSubjects[lenthOfArray] = {"Linear Algebra", "Probability", "DataStructures and Algorithms", "OOP"};
+    int indexToInsert = 1;
+    string valueToInsert = "Machine Learning";
 
-    // Before Array
+
     cout << "Before Array: ";
-    for (int i=0; i<lenthOfArray; i++) {
+    for (int i = 0; i < lengthOfArray; ++i) {
         cout << compScieSubjects[i] << " ";
     }
 
-    for (int i=0; i<=lenthOfArray; i++) {
-        if (i == userInputIndex) {
-            lenthOfArray = lenthOfArray + 1;
-            for (int j=i; j<=lenthOfArray; j++) {
-                compScieSubjects[j-1] = compScieSubjects[j];
-            }
-            break;
-        }
+    // Bounds checks
+    if (indexToInsert < 0 || indexToInsert > lengthOfArray) {
+        cout << "\nInvalid index\n";
+        return 0;
+    }
+    if (lengthOfArray >= maxSize) {
+        cout << "\nIndex out of Bounds\n";
+        return 0;
     }
 
-    // After Array
-    cout << "\nAfter Array: ";
-    for (int i=0; i<lenthOfArray; i++) {
-        cout << compScieSubjects[i] << " ";
+    // Shift right to make room (start from last used index)
+    for (int j = lengthOfArray; j > indexToInsert; --j) {
+        compScieSubjects[j] = compScieSubjects[j - 1];
     }
+
+    // Insert and update length
+    compScieSubjects[indexToInsert] = valueToInsert;
+    ++lengthOfArray;
+
+    cout << "\nAfter: ";
+    for (int i = 0; i < lengthOfArray; ++i) cout << compScieSubjects[i] << " ";
+
+    return 0;
 }
