@@ -1,4 +1,4 @@
-## Searching an Array
+# **Searching a value from an Array**
 
 **Goal:**
 
