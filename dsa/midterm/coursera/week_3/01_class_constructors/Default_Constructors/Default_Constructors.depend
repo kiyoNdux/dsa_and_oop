@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1757379838 source:c:\users\pc\desktop\school_dsa_and_oop\dsa\midterm\coursera\week_3\01_class_constructors\main.cpp
+	"Cube.h"
+	<iostream>
+
+1757379538 c:\users\pc\desktop\school_dsa_and_oop\dsa\midterm\coursera\week_3\01_class_constructors\cube.h
+
+1757379775 source:c:\users\pc\desktop\school_dsa_and_oop\dsa\midterm\coursera\week_3\01_class_constructors\cube.cpp
+	"Cube.h"
+
