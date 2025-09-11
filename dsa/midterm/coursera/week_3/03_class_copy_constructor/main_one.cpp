@@ -6,7 +6,7 @@ void foo(Cube cube) {
 }
 
 int main() {
-    Cube c(3.0);
+    Cube c;
     foo(c);
     return 0;
 }
