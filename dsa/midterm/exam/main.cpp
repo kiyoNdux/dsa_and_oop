@@ -5,6 +5,7 @@ const int MAX_SIZE = 10;
 string customer_queue[MAX_SIZE];
 int queue_size = 0;
 
+
 void showMenu() {
     cout << "===== Banking Queue System =====" << endl;
     cout << "[1] Add Customer to Queue" << endl;
@@ -52,26 +53,44 @@ int find_customer(string customer_name) {
 }
 
 
+void sort_queue() {
+    if (queue_size > 0) {
+        for (int i = 0; i < queue_size - 1; i++) {
+            for (int j = 0; j < queue_size - i - 1; j++) {
+                if (customer_queue[j] > customer_queue[j + 1]) {
+                    string temp = customer_queue[j];
+                    customer_queue[j] = customer_queue[j + 1];
+                    customer_queue[j + 1] = temp;
+                }
+            }
+        }
+        cout << "Queue sorted alphabetically (priority)." << endl;
+    } else {
+        cout << "Queue is empty, nothing to sort." << endl;
+    }
+}
+
+
+
 
 
 int main() {
-    int user_choice;
+    string user_choice;
     do {
         showMenu();
         cin >> user_choice;
 
-        if (user_choice == 1) {
+        if (user_choice == "1") {
             string new_customer;
             cout << "Enter customer name: ";
             cin >> new_customer;
             add_customer(new_customer);
-        } else if (user_choice == 2) {
+        } else if (user_choice == "2") {
             serve_next_customer();
-        } else if (user_choice == 3) {
+        } else if (user_choice == "3") {
             string target_customer;
             cout << "Enter customer name you want to find: ";
             cin >> target_customer;
-
             int pos = find_customer(target_customer);
 
             if (pos != -1) {
@@ -80,14 +99,16 @@ int main() {
             } else {
                 cout << "Customer " << target_customer << " not found in queue." << endl;
             }
-        } else if (user_choice == 0) {
+        } else if(user_choice == "4") {
+            sort_queue();
+        } else if (user_choice == "0") {
             cout << "Exiting system..." << endl;
         } else {
             cout << "Invalid choice. Try again." << endl;
         }
 
         cout << endl;
-    } while (user_choice != 0);
+    } while (user_choice != "0");
 
     return 0;
 }
