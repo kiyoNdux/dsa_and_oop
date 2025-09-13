@@ -9,10 +9,13 @@ void showMenu() {
     cout << "===== Banking Queue System =====" << endl;
     cout << "[1] Add Customer to Queue" << endl;
     cout << "[2] Serve Next Customer" << endl;
-    cout << "[3] Show Queue" << endl;
-    cout << "[0] Exit" << endl;
+    cout << "[3] Find Customer in Queue" << endl;
+    cout << "[4] Sort Queue (by Priority)" << endl;
+    cout << "[5] Show Queue" << endl;
+    cout << "[0] Back to Main Menu" << endl;
     cout << "Enter your choice: ";
 }
+
 
 
 void add_customer(string customer_name) {
@@ -39,6 +42,18 @@ void serve_next_customer() {
 }
 
 
+int find_customer(string customer_name) {
+    for (int i = 0; i < queue_size; i++) {
+        if (customer_queue[i] == customer_name) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+
+
+
 int main() {
     int user_choice;
     do {
@@ -53,7 +68,18 @@ int main() {
         } else if (user_choice == 2) {
             serve_next_customer();
         } else if (user_choice == 3) {
-            continue;
+            string target_customer;
+            cout << "Enter customer name you want to find: ";
+            cin >> target_customer;
+
+            int pos = find_customer(target_customer);
+
+            if (pos != -1) {
+                cout << "Customer " << target_customer
+                     << " found at position " << (pos + 1) << "." << endl;
+            } else {
+                cout << "Customer " << target_customer << " not found in queue." << endl;
+            }
         } else if (user_choice == 0) {
             cout << "Exiting system..." << endl;
         } else {
