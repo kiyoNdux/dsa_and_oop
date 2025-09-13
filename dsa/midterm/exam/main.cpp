@@ -26,6 +26,19 @@ void add_customer(string customer_name) {
 }
 
 
+void serve_next_customer() {
+    if (queue_size > 0) {
+        cout << "Serving customer: " << customer_queue[0] << endl;
+        for (int i = 1; i < queue_size; i++) {
+            customer_queue[i - 1] = customer_queue[i];
+        }
+        queue_size--;
+    } else {
+        cout << "No customers in queue." << endl;
+    }
+}
+
+
 int main() {
     int user_choice;
     do {
@@ -38,7 +51,7 @@ int main() {
             cin >> new_customer;
             add_customer(new_customer);
         } else if (user_choice == 2) {
-            continue;
+            serve_next_customer();
         } else if (user_choice == 3) {
             continue;
         } else if (user_choice == 0) {
