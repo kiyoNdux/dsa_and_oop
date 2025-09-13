@@ -15,8 +15,6 @@ void showMenu() {
     cout << "[5] Show Queue" << endl;
     cout << "[6] Insert Customer at Position" << endl;
     cout << "[7] Kick Customer at Position" << endl;
-    cout << "[8] Show Queue (Before)" << endl;
-    cout << "[9] Show Queue (After)" << endl;
     cout << "[0] Back to Main Menu" << endl;
     cout << "Enter your choice: ";
 }
@@ -104,31 +102,6 @@ void show_queue() {
 }
 
 
-void show_queue_before() {
-    cout << "===== Queue (Before) =====" << endl;
-    if (queue_size == 0) {
-        cout << "Queue is empty." << endl;
-    } else {
-        for (int i = 0; i < queue_size; i++) {
-            cout << (i + 1) << ". " << customer_queue[i] << endl;
-        }
-    }
-    cout << "==========================" << endl;
-}
-
-
-void show_queue_after() {
-    cout << "===== Queue (After) =====" << endl;
-    if (queue_size == 0) {
-        cout << "Queue is empty." << endl;
-    } else {
-        for (int i = 0; i < queue_size; i++) {
-            cout << (i + 1) << ". " << customer_queue[i] << endl;
-        }
-    }
-    cout << "=========================" << endl;
-}
-
 
 bool insert_at_position(string customer_name, int pos) {
     if (queue_size >= MAX_SIZE) {
@@ -178,7 +151,7 @@ int main() {
         cin >> user_choice;
 
         if (user_choice == "1") {
-            add_customer(new_customer);
+            add_customer();
         } else if (user_choice == "2") {
             serve_next_customer();
         } else if (user_choice == "3") {
