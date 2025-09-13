@@ -14,6 +14,7 @@ void showMenu() {
     cout << "[4] Sort Queue (by Priority)" << endl;
     cout << "[5] Show Queue" << endl;
     cout << "[6] Insert Customer at Position" << endl;
+    cout << "[7] Kick Customer at Position" << endl;
     cout << "[0] Back to Main Menu" << endl;
     cout << "Enter your choice: ";
 }
@@ -72,6 +73,21 @@ void sort_queue() {
 }
 
 
+void show_queue() {
+    if (queue_size == 0) {
+        cout << "Queue is empty." << endl;
+        return;
+    }
+
+    cout << "===== Current Queue =====" << endl;
+    for (int i = 0; i < queue_size; i++) {
+        cout << (i + 1) << ". " << customer_queue[i] << endl;
+    }
+    cout << "=========================" << endl;
+}
+
+
+
 bool insert_at_position(string customer_name, int pos) {
     if (queue_size >= MAX_SIZE) {
         cout << "Queue is full! Cannot insert.\n";
@@ -91,6 +107,26 @@ bool insert_at_position(string customer_name, int pos) {
     return true;
 }
 
+
+bool kick_customer_at_position(int pos) {
+    if (queue_size == 0) {
+        cout << "Queue is empty. Nothing to kick." << endl;
+        return false;
+    }
+    if (pos < 0 || pos >= queue_size) {
+        cout << "Invalid position!" << endl;
+        return false;
+    }
+
+    cout << "Kicking out customer: " << customer_queue[pos] << endl;
+
+    for (int i = pos; i < queue_size - 1; i++) {
+        customer_queue[i] = customer_queue[i + 1];
+    }
+    queue_size--;
+
+    return true;
+}
 
 
 int main() {
@@ -120,6 +156,8 @@ int main() {
             }
         } else if(user_choice == "4") {
             sort_queue();
+        } else if(user_choice == "5") {
+            show_queue();
         } else if (user_choice == "6") {
             string new_customer;
             int pos;
@@ -131,6 +169,11 @@ int main() {
             if (insert_at_position(new_customer, pos - 1)) {
                 cout << "Customer inserted successfully.\n";
             }
+        } else if (user_choice == "7") {
+            int pos;
+            cout << "Enter position of customer to kick (1 to " << queue_size << "): ";
+            cin >> pos;
+            kick_customer_at_position(pos - 1);
         } else if (user_choice == "0") {
             cout << "Exiting system..." << endl;
         } else {
