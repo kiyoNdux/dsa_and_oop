@@ -23,15 +23,30 @@ void showMenu() {
 
 
 
-void add_customer(string customer_name) {
-    if (queue_size < MAX_SIZE) {
-        customer_queue[queue_size] = customer_name;
-        queue_size++;
-        cout << customer_name << " added to the queue." << endl;
-    } else {
-        cout << "Queue is full. Cannot add more customers." << endl;
+void add_customer() {
+    string customer_name;
+    cout << "Enter customer names (type 'exit' to go back):" << endl;
+
+    while (true) {
+        cout << "-> ";
+        cin >> customer_name;
+
+        if (customer_name == "exit") {
+            cout << "Returning to main menu..." << endl;
+            break;
+        }
+
+        if (queue_size < MAX_SIZE) {
+            customer_queue[queue_size] = customer_name;
+            queue_size++;
+            cout << customer_name << " added to the queue." << endl;
+        } else {
+            cout << "Queue is full. Cannot add more customers." << endl;
+            break;
+        }
     }
 }
+
 
 
 void serve_next_customer() {
@@ -163,9 +178,6 @@ int main() {
         cin >> user_choice;
 
         if (user_choice == "1") {
-            string new_customer;
-            cout << "Enter customer name: ";
-            cin >> new_customer;
             add_customer(new_customer);
         } else if (user_choice == "2") {
             serve_next_customer();
