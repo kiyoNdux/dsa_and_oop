@@ -13,6 +13,7 @@ void showMenu() {
     cout << "[3] Find Customer in Queue" << endl;
     cout << "[4] Sort Queue (by Priority)" << endl;
     cout << "[5] Show Queue" << endl;
+    cout << "[6] Insert Customer at Position" << endl;
     cout << "[0] Back to Main Menu" << endl;
     cout << "Enter your choice: ";
 }
@@ -71,6 +72,24 @@ void sort_queue() {
 }
 
 
+bool insert_at_position(string customer_name, int pos) {
+    if (queue_size >= MAX_SIZE) {
+        cout << "Queue is full! Cannot insert.\n";
+        return false;
+    }
+    if (pos < 0 || pos > queue_size) {
+        cout << "Invalid position!\n";
+        return false;
+    }
+
+    for (int i = queue_size; i > pos; i--) {
+        customer_queue[i] = customer_queue[i - 1];
+    }
+
+    customer_queue[pos] = customer_name;
+    queue_size++;
+    return true;
+}
 
 
 
@@ -101,6 +120,17 @@ int main() {
             }
         } else if(user_choice == "4") {
             sort_queue();
+        } else if (user_choice == "6") {
+            string new_customer;
+            int pos;
+            cout << "Enter customer name: ";
+            cin >> new_customer;
+            cout << "Enter position (1 to " << (queue_size + 1) << "): ";
+            cin >> pos;
+
+            if (insert_at_position(new_customer, pos - 1)) {
+                cout << "Customer inserted successfully.\n";
+            }
         } else if (user_choice == "0") {
             cout << "Exiting system..." << endl;
         } else {
