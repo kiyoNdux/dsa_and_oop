@@ -64,7 +64,7 @@ void sort_queue() {
                 }
             }
         }
-        cout << "Queue sorted alphabetically (priority)." << endl;
+        cout << "Queue sorted alphabetically." << endl;
     } else {
         cout << "Queue is empty, nothing to sort." << endl;
     }
