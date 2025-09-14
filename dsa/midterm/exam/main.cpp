@@ -5,6 +5,20 @@ const int MAX_SIZE = 10;
 string customer_queue[MAX_SIZE];
 int queue_size = 0;
 
+void show_queue();
+
+void print_queue_state(string label) {
+    cout << "---- " << label << " ----" << endl;
+    if (queue_size == 0) {
+        cout << "(empty)" << endl;
+    } else {
+        for (int i = 0; i < queue_size; i++) {
+            cout << (i + 1) << ". " << customer_queue[i] << endl;
+        }
+    }
+    cout << "------------------------" << endl;
+}
+
 
 void showMenu() {
     cout << "===== Banking Queue System =====" << endl;
@@ -15,10 +29,9 @@ void showMenu() {
     cout << "[5] Show Queue" << endl;
     cout << "[6] Insert Customer at Position" << endl;
     cout << "[7] Kick Customer at Position" << endl;
-    cout << "[0] Back to Main Menu" << endl;
+    cout << "[0] Exit" << endl;
     cout << "Enter your choice: ";
 }
-
 
 
 void add_customer() {
@@ -34,6 +47,8 @@ void add_customer() {
             break;
         }
 
+        print_queue_state("Before Adding");
+
         if (queue_size < MAX_SIZE) {
             customer_queue[queue_size] = customer_name;
             queue_size++;
@@ -42,12 +57,15 @@ void add_customer() {
             cout << "Queue is full. Cannot add more customers." << endl;
             break;
         }
+
+        print_queue_state("After Adding");
     }
 }
 
 
-
 void serve_next_customer() {
+    print_queue_state("Before Serving");
+
     if (queue_size > 0) {
         cout << "Serving customer: " << customer_queue[0] << endl;
         for (int i = 1; i < queue_size; i++) {
@@ -57,6 +75,8 @@ void serve_next_customer() {
     } else {
         cout << "No customers in queue." << endl;
     }
+
+    print_queue_state("After Serving");
 }
 
 
@@ -71,6 +91,8 @@ int find_customer(string customer_name) {
 
 
 void sort_queue() {
+    print_queue_state("Before Sorting");
+
     if (queue_size > 0) {
         for (int i = 0; i < queue_size - 1; i++) {
             for (int j = 0; j < queue_size - i - 1; j++) {
@@ -85,6 +107,8 @@ void sort_queue() {
     } else {
         cout << "Queue is empty, nothing to sort." << endl;
     }
+
+    print_queue_state("After Sorting");
 }
 
 
@@ -102,8 +126,9 @@ void show_queue() {
 }
 
 
-
 bool insert_at_position(string customer_name, int pos) {
+    print_queue_state("Before Insert");
+
     if (queue_size >= MAX_SIZE) {
         cout << "Queue is full! Cannot insert.\n";
         return false;
@@ -119,11 +144,15 @@ bool insert_at_position(string customer_name, int pos) {
 
     customer_queue[pos] = customer_name;
     queue_size++;
+
+    print_queue_state("After Insert");
     return true;
 }
 
 
 bool kick_customer_at_position(int pos) {
+    print_queue_state("Before Kick");
+
     if (queue_size == 0) {
         cout << "Queue is empty. Nothing to kick." << endl;
         return false;
@@ -140,6 +169,7 @@ bool kick_customer_at_position(int pos) {
     }
     queue_size--;
 
+    print_queue_state("After Kick");
     return true;
 }
 
@@ -186,10 +216,6 @@ int main() {
             cout << "Enter position of customer to kick (1 to " << queue_size << "): ";
             cin >> pos;
             kick_customer_at_position(pos - 1);
-        } else if (user_choice == "8") {
-            show_queue_before();
-        } else if (user_choice == "9") {
-            show_queue_after();
         } else if (user_choice == "0") {
             cout << "Exiting system..." << endl;
         } else {
