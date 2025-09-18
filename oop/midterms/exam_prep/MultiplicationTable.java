@@ -1,22 +1,23 @@
 import javax.swing.*;
-import java.awt.*;
 
-public class MultiplicationTable {
-    public static void main(String[] args) {
-        JPanel panel = new JPanel(new GridLayout(10, 10, 5, 5));
-
-        for (int i = 1; i <= 10; i++) {
-            for (int j = 1; j <= 10; j++) {
-                JLabel label = new JLabel(String.valueOf(i * j), SwingConstants.CENTER);
-                panel.add(label);
-            }
-        }
-
-        JOptionPane.showMessageDialog(
-            null,
-            panel,
-            "MULTIPLICATION TABLE",
-            JOptionPane.INFORMATION_MESSAGE
-        );
-    }
+class MultiplicationTable{
+	public static void main(String[] args) {
+		int multp_arr[] = new int[100];
+		int counter = -1;
+		String str="";
+		for(int i=1; i<=10; i++) {
+			for(int j=1; j<=10; j++) {
+				counter++;
+				multp_arr[counter] = i*j;
+				// System.out.print(i*j + " ");
+			}
+		}
+		for (int k = 0; k < multp_arr.length; k++){
+			str = str + multp_arr[k] + " ";
+			if ((k+1)%10 == 0) {
+				str = str + "\n";
+			}
+		}
+		JOptionPane.showMessageDialog(null, str);
+	}
 }
