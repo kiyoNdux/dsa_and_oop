@@ -1,0 +1,22 @@
+# depslib dependency file v1.0
+1758350447 source:c:\users\pc\desktop\school_dsa_and_oop\dsa\midterm\coursera\week_4\02_tower_of_hanoi\towerofhanoi\main.cpp
+	"Game.h"
+	<iostream>
+
+1758349950 c:\users\pc\desktop\school_dsa_and_oop\dsa\midterm\coursera\week_4\02_tower_of_hanoi\towerofhanoi\game.h
+	"Stack.h"
+	<vector>
+
+1758350914 c:\users\pc\desktop\school_dsa_and_oop\dsa\midterm\coursera\week_4\02_tower_of_hanoi\towerofhanoi\stack.h
+	<vector>
+	<ostream>
+	"Cube.h"
+
+1758351014 c:\users\pc\desktop\school_dsa_and_oop\dsa\midterm\coursera\week_4\02_tower_of_hanoi\towerofhanoi\cube.h
+	"HSLAPixel.h"
+
+1758351007 c:\users\pc\desktop\school_dsa_and_oop\dsa\midterm\coursera\week_4\02_tower_of_hanoi\towerofhanoi\hslapixel.h
+
+1758351043 source:c:\users\pc\desktop\school_dsa_and_oop\dsa\midterm\coursera\week_4\02_tower_of_hanoi\towerofhanoi\cube.cpp
+	"Cube.h"
+
