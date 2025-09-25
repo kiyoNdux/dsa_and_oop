@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="FinalTask" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/FinalTask" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-std=c++11" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/FinalTask" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="FinalTask.depend" />
+		<Unit filename="FinalTask.layout" />
+		<Unit filename="ImageTransform.cpp" />
+		<Unit filename="ImageTransform.h" />
+		<Unit filename="Makefile" />
+		<Unit filename="alma.png" />
+		<Unit filename="main.cpp">
+			<Option compile="0" />
+			<Option link="0" />
+		</Unit>
+		<Unit filename="obj/Debug/ImageTransform.o" />
+		<Unit filename="obj/Debug/main.o" />
+		<Unit filename="obj/Debug/tests/part1.o" />
+		<Unit filename="obj/Debug/tests/part2.o" />
+		<Unit filename="obj/Debug/uiuc/HSLAPixel.o" />
+		<Unit filename="obj/Debug/uiuc/PNG.o" />
+		<Unit filename="obj/Debug/uiuc/catch/catchmain.o" />
+		<Unit filename="obj/Debug/uiuc/lodepng/lodepng.o" />
+		<Unit filename="overlay.png" />
+		<Unit filename="tests/part1.cpp" />
+		<Unit filename="tests/part2.cpp" />
+		<Unit filename="uiuc/HSLAPixel.cpp" />
+		<Unit filename="uiuc/HSLAPixel.h" />
+		<Unit filename="uiuc/PNG.cpp" />
+		<Unit filename="uiuc/PNG.h" />
+		<Unit filename="uiuc/RGB_HSL.h" />
+		<Unit filename="uiuc/catch/catchmain.cpp" />
+		<Unit filename="uiuc/lodepng/lodepng.cpp" />
+		<Unit filename="uiuc/lodepng/lodepng.h" />
+		<Unit filename="uiuc/make/uiuc.mk" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
