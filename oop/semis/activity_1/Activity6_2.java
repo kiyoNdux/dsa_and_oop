@@ -5,15 +5,15 @@ class Book {
     String author;
     int year;
 
-    // default constructor: ask user for input
+    // default constructor ask user for input
     Book() {
-        Scanner sc = new Scanner(System.in);
+        Scanner userInput = new Scanner(System.in);
         System.out.print("Enter book title: ");
-        title = sc.nextLine();
+        title = userInput.nextLine();
         System.out.print("Enter author name: ");
-        author = sc.nextLine();
+        author = userInput.nextLine();
         System.out.print("Enter publication year: ");
-        year = sc.nextInt();
+        year = userInput.nextInt();
     }
 
     // parameterized constructor
@@ -42,12 +42,15 @@ class Book {
 
 public class Activity6_2 {
     public static void main(String[] args) {
-        System.out.println("Creating Book 1 (Default Constructor with user input)");
+
+	// Default constructor with user input
+        System.out.println("Creating Book 1");
         Book b1 = new Book(); // user will type input
         b1.displayInfo();
         b1.checkModern();
 
-        System.out.println("\nCreating Book 2 (Parameterized Constructor)");
+	// Parameterized constructors with name, author, and year
+        System.out.println("\nCreating Book 2");
         Book b2 = new Book("Grokking Algorithms", "Aditya Y. Bhargava", 2015);
         b2.displayInfo();
         b2.checkModern();

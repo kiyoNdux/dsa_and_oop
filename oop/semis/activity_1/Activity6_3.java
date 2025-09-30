@@ -33,35 +33,35 @@ class Agent {
 
 public class Activity6_3 {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner userInput = new Scanner(System.in);
 
         System.out.print("Enter number of agents: ");
-        int n = input.nextInt();
-        input .nextLine();
+        int n = userInput.nextInt();
+        userInput.nextLine();
 
         Agent[] agents = new Agent[n];
 
         for (int i = 0; i < n; i++) {
             System.out.print("Enter agent name: ");
-            String name = input.nextLine();
+            String name = userInput.nextLine();
 
             System.out.print("Enter number of sales: ");
-            int salesCount = input.nextInt();
+            int salesCount = userInput.nextInt();
             double[] sales = new double[salesCount];
 
             System.out.println("Enter sales values:");
             for (int j = 0; j < salesCount; j++) {
-                sales[j] = input.nextDouble();
+                sales[j] = userInput.nextDouble();
             }
-            input.nextLine(); // consume newline
+            userInput.nextLine();
 
             agents[i] = new Agent(name, sales);
         }
 
-        // Display averages and find best performer
+        // print averages and find best performer
         Agent topAgent = agents[0];
         for (Agent agent : agents) {
-            System.out.println(agent.name + " -> Average Sales: " + agent.averageSales());
+            System.out.println(agent.name + "'s Average Sales: " + agent.averageSales());
             if (agent.highestSale() > topAgent.highestSale()) {
                 topAgent = agent;
             }
