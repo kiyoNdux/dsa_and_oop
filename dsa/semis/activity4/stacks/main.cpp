@@ -1,66 +1,59 @@
 #include <iostream>
-#define STACK_H
 using namespace std;
 
 class Stack {
-    private:
-        int top;
-        int maxSize;
-        string * stackArray;
+private:
+    int top;
+    int maxSize;
+    string* stackArray;
 
-    public:
-        // Constructor to initialize stack
-        Stack(int size) {
-            maxSize = size;
-            stackArray = new string[maxSize];
-            top = -1; // Stack is initially empty
-        }
+public:
+    // Constructor to initialize stack
+    Stack(int size) {
+        maxSize = size;
+        stackArray = new string[maxSize];
+        top = -1; // Stack is initially empty
+    }
 
-        // Destructor to cleanup the allocated memory
-        ~Stack() {
-            delete[] stackArray;
-        }
+    // Destructor to cleanup the allocated memory
+    ~Stack() {
+        delete[] stackArray;
+    }
 
-        // Function to check if the stack is empty
-        bool isEmpty() {
-            return (top == -1);
-        }
+    bool isEmpty() {
+        return (top == -1);
+    }
 
-        // Function to check if the stack is full
-        bool isFull() {
-            return (top == maxSize - 1);
-        }
+    bool isFull() {
+        return (top == maxSize - 1);
+    }
 
-        // Function to push an element onto the stack
-        void push(string value) {
-            if (isFull()) {
-                cout << "Stack is full. Cannot push " << value << "." << endl;
-            } else {
-                stackArray[++top] = value;
-                cout << "Pushed" << value << " onto the stack." << endl;
-            }
+    void push(string value) {
+        if (isFull()) {
+            cout << "Stack is full. Cannot push \"" << value << "\"." << endl;
+        } else {
+            stackArray[++top] = value;
         }
+    }
 
-        // Function to pop an element from the stack
-        void pop() {
-            if (isEmpty()) {
-                cout << "Stack is empty. Cannot pop." << endl;
-            } else {
-                cout << "Popped " << stackArray[top--] << "from the stack." << endl;
-            }
+    string pop() {
+        if (isEmpty()) {
+            return "";
+        } else {
+            return stackArray[top--];
         }
+    }
 
-        // Function to peek the top element of the stack
-        string peek() {
-            if (isEmpty()) {
-                cout << "Stack is empty. Nothing to peek." << endl;
-                return -1; // Return -1 if stack is empty
-            } else {
-                return stackArray[top];
-            }
+    string peek() {
+        if (isEmpty()) {
+            return "";
+        } else {
+            return stackArray[top];
         }
+    }
 };
 
+// Real-world example: Web browser navigation
 int main() {
     Stack backStack(5);
     Stack forwardStack(5);
@@ -70,8 +63,8 @@ int main() {
     string newPage;
 
     while (true) {
-        cout << "Browser Navigation" << endl;
-        cout << "\nCurrent page: " << currentPage << endl;
+        cout << "\nBrowser Navigation" << endl;
+        cout << "Current page: " << currentPage << endl;
         cout << "1. Visit new page" << endl;
         cout << "2. Go back" << endl;
         cout << "3. Go forward" << endl;
