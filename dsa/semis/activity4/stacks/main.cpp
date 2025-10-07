@@ -53,7 +53,6 @@ public:
     }
 };
 
-// Real-world example: Web browser navigation
 int main() {
     Stack backStack(5);
     Stack forwardStack(5);
