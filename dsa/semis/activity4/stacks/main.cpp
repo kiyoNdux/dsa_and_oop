@@ -2,18 +2,17 @@
 #define STACK_H
 using namespace std;
 
-int main() {
-    class Stack {
+class Stack {
     private:
         int top;
         int maxSize;
-        int * stackArray;
+        string * stackArray;
 
     public:
         // Constructor to initialize stack
         Stack(int size) {
             maxSize = size;
-            stackArray = new int[maxSize];
+            stackArray = new string[maxSize];
             top = -1; // Stack is initially empty
         }
 
@@ -33,7 +32,7 @@ int main() {
         }
 
         // Function to push an element onto the stack
-        void push(int value) {
+        void push(string value) {
             if (isFull()) {
                 cout << "Stack is full. Cannot push " << value << "." << endl;
             } else {
@@ -52,7 +51,7 @@ int main() {
         }
 
         // Function to peek the top element of the stack
-        int peek() {
+        string peek() {
             if (isEmpty()) {
                 cout << "Stack is empty. Nothing to peek." << endl;
                 return -1; // Return -1 if stack is empty
@@ -60,5 +59,66 @@ int main() {
                 return stackArray[top];
             }
         }
-    };
+};
+
+int main() {
+    Stack backStack(5);
+    Stack forwardStack(5);
+    string currentPage = "Home";
+
+    int choice;
+    string newPage;
+
+    while (true) {
+        cout << "Browser Navigation" << endl;
+        cout << "\nCurrent page: " << currentPage << endl;
+        cout << "1. Visit new page" << endl;
+        cout << "2. Go back" << endl;
+        cout << "3. Go forward" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        if (choice == 1) {
+            cout << "Enter page name: ";
+            cin >> newPage;
+
+            backStack.push(currentPage);
+            currentPage = newPage;
+
+            // Clear forward stack when visiting new page
+            while (!forwardStack.isEmpty()) {
+                forwardStack.pop();
+            }
+
+            cout << "Visited: " << currentPage << endl;
+        }
+        else if (choice == 2) {
+            if (backStack.isEmpty()) {
+                cout << "No pages in back history." << endl;
+            } else {
+                forwardStack.push(currentPage);
+                currentPage = backStack.pop();
+                cout << "Went back to: " << currentPage << endl;
+            }
+        }
+        else if (choice == 3) {
+            if (forwardStack.isEmpty()) {
+                cout << "No pages in forward history." << endl;
+            } else {
+                backStack.push(currentPage);
+                currentPage = forwardStack.pop();
+                cout << "Went forward to: " << currentPage << endl;
+            }
+        }
+        else if (choice == 4) {
+            cout << "Exiting browser simulation..." << endl;
+            break;
+        }
+        else {
+            cout << "Invalid choice. Try again." << endl;
+        }
+    }
+
+    return 0;
 }
