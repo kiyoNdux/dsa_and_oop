@@ -1,22 +1,26 @@
-#include <iostream>
-using namespace std;
+#include <iostream>    // Includes the input/output stream library for cout and cin
+using namespace std;   // Allows use of standard library names without std:: prefix
+
 
 class Queue {
 private:
-    int front, rear, capacity;
-    string* queue;
+    int front, rear, capacity;   // Variables to track queue front, rear, and total capacity
+    string* queue;               // Pointer to dynamically allocated array of strings
+
 
 public:
     Queue(int cap) {
-        front = 0;
-        rear = -1;
-        capacity = cap;
-        queue = new string[capacity];
+        front = 0;                   // Initialize front to index 0
+        rear = -1;                   // Initialize rear to -1 (queue empty)
+        capacity = cap;              // Set the capacity from the constructor argument
+        queue = new string[capacity]; // Dynamically allocate memory for the queue
     }
 
+
     ~Queue() {
-        delete[] queue;
+        delete[] queue; // Release dynamically allocated memory
     }
+
 
     void enqueue(string request) {
         if (isFull()) {
@@ -24,9 +28,10 @@ public:
             return;
         } else {
             cout << "Received request: " << request << endl;
-            queue[++rear] = request;
+            queue[++rear] = request; // Increment rear and add the request
         }
     }
+
 
     void dequeue() {
         if (isEmpty()) {
@@ -34,13 +39,14 @@ public:
             return;
         } else {
             cout << "Processing request: " << queue[front] << endl;
-            // Shift all elements left (simple approach)
+            // Shift all elements left
             for (int i = 0; i < rear; i++) {
                 queue[i] = queue[i + 1];
             }
-            rear--;
+            rear--; // Decrease rear since one request is removed
         }
     }
+
 
     string peek() {
         if (isEmpty()) {
@@ -49,6 +55,7 @@ public:
         }
         return queue[front];
     }
+
 
     bool isFull() {
         return rear == capacity - 1;
@@ -75,9 +82,10 @@ public:
 
 
 int main() {
-    Queue requestQueue(5);
+    Queue requestQueue(5);  // Create a queue with capacity 5
     int choice;
     string url;
+
 
     while (true) {
         cout << "\nWeb Server Request Queue" << endl;
@@ -90,6 +98,7 @@ int main() {
         cin >> choice;
 
         cin.ignore(); // Clear leftover newline from input
+
 
         switch (choice) {
             case 1:
