@@ -55,7 +55,7 @@ public class Activity6_2 {
         b2.displayInfo();
         b2.checkModern();
 
-        System.out.println("\nCreating Book 3 (Parameterized Constructor)");
+        System.out.println("\nCreating Book 3");
         Book b3 = new Book("Clean Code", "Robert C. Martin", 2008);
         b3.displayInfo();
         b3.checkModern();
