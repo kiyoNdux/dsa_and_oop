@@ -44,7 +44,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     }
     
     private void cmbStatusActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        String selectedStatus = (String) cmbStatus.getSelectedItem();
+        String selectedStatus = (String) jComboBox1.getSelectedItem();
         System.out.println("Selected status: " + selectedStatus);
     }
 
@@ -104,7 +104,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Display");
+        jButton4.setText("Refresh");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -137,14 +137,13 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addContainerGap()
                             .addComponent(jLabel4)
                             .addGap(412, 412, 412))
                         .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(144, 144, 144)
                             .addComponent(jButton2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton1)
@@ -152,18 +151,15 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
                             .addComponent(jButton3)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addComponent(jButton4)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel3))))
+                            .addComponent(jLabel2)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel3))
                 .addContainerGap(165, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -239,21 +235,41 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     // Edit Button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-            int selectedRow = getSelectedRowIndex();
+        int selectedRow = getSelectedRowIndex();
         if (selectedRow == -1) return;
 
         try {
-            Pet pet = petList.get(selectedRow);
-            pet.setName(jTextField4.getText().trim());
-            pet.setType(jTextField5.getText().trim());
-            pet.setAge(Integer.parseInt(jTextField6.getText().trim()));
-            // Get status from combo box
+            String name = jTextField4.getText().trim();
+            String type = jTextField5.getText().trim();
             String status = (String) jComboBox1.getSelectedItem();
-            pet.setStatus(status);
+            int age = Integer.parseInt(jTextField6.getText().trim());
 
+            // Input validation
+            if (name.isEmpty() || type.isEmpty() || status.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            if (age < 0 || age > 30) {
+                JOptionPane.showMessageDialog(this, "Age must be between 0 and 30!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Capitalize first letter of name/type
+            name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+            type = type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
+
+            // Update existing Pet
+            Pet pet = petList.get(selectedRow);
+            pet.setName(name);
+            pet.setType(type);
+            pet.setAge(age);
+            pet.setStatus(status);
 
             JOptionPane.showMessageDialog(this, "Pet updated successfully!");
             displayPets();
+            clearFields();
+
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Age must be a number!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -266,14 +282,24 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             String name = jTextField4.getText().trim();
             String type = jTextField5.getText().trim();
             String status = (String) jComboBox1.getSelectedItem();
-
             int age = Integer.parseInt(jTextField6.getText().trim());
 
+            // Input validation
             if (name.isEmpty() || type.isEmpty() || status.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill all fields!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
+            if (age < 0 || age > 30) {
+                JOptionPane.showMessageDialog(this, "Age must be between 0 and 30!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Capitalize first letter of name/type
+            name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
+            type = type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
+
+            // Create new Pet based on type
             Pet pet;
             if (type.equalsIgnoreCase("Dog")) {
                 pet = new Dog(name, age);
@@ -283,12 +309,12 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
                 pet = new Pet(name, type, age);
             }
 
-            // override default status if user provided one
             pet.setStatus(status);
 
             petList.add(pet);
             JOptionPane.showMessageDialog(this, "Pet added successfully!");
             displayPets();
+            clearFields();
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Age must be a number!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -297,7 +323,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
 
     // Delete Button
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-           // TODO add your handling code here:
+        // TODO add your handling code here:
         int selectedRow = getSelectedRowIndex();
         if (selectedRow == -1) return;
 
@@ -332,6 +358,14 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             model.addRow(new Object[]{p.getName(), p.getType(), p.getAge(), p.getStatus()});
         }
     }
+    
+    private void clearFields() {
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField6.setText("");
+        jComboBox1.setSelectedIndex(0);
+    }
+
 
 
     private int getSelectedRowIndex() {
