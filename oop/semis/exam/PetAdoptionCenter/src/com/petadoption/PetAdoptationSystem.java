@@ -21,6 +21,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     
     private ArrayList<Pet> petList = new ArrayList<>();
     private DefaultTableModel model;
+    private javax.swing.JTable tblPets;
     
     
     public PetAdoptationSystem() {
@@ -36,11 +37,26 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
 
         // Initialize the table model (columns)
         model = new DefaultTableModel(new Object[]{"Name", "Type", "Age", "Status"}, 0);
-        javax.swing.JTable table = new javax.swing.JTable(model);
-        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(table);
+        tblPets = new javax.swing.JTable(model);
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(tblPets);
         jPanel1.add(scrollPane);
         scrollPane.setBounds(250, 20, 400, 200);
-        table.setFillsViewportHeight(true);
+        tblPets.setFillsViewportHeight(true);
+
+        // Prefill text fields when row is clicked
+        tblPets.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                int row = tblPets.getSelectedRow();
+                if (row >= 0) {
+                    Pet pet = petList.get(row);
+                    jTextField4.setText(pet.getName());
+                    jTextField5.setText(pet.getType());
+                    jTextField6.setText(String.valueOf(pet.getAge()));
+                    jComboBox1.setSelectedItem(pet.getStatus());
+                }
+            }
+        });
     }
     
     private void cmbStatusActionPerformed(java.awt.event.ActionEvent evt) {                                           
@@ -235,8 +251,11 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     // Edit Button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        int selectedRow = getSelectedRowIndex();
-        if (selectedRow == -1) return;
+        int selectedRow = tblPets.getSelectedRow();   // Get selected row from table
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a pet to edit!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
 
         try {
             String name = jTextField4.getText().trim();
@@ -259,7 +278,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             name = name.substring(0, 1).toUpperCase() + name.substring(1).toLowerCase();
             type = type.substring(0, 1).toUpperCase() + type.substring(1).toLowerCase();
 
-            // Update existing Pet
+            // Update existing Pet object
             Pet pet = petList.get(selectedRow);
             pet.setName(name);
             pet.setType(type);
