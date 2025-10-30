@@ -15,6 +15,7 @@ public class Pet {
     private String type;
     private int age;
     private String status;
+    private boolean adopted; 
 
     public Pet(String name, String type, int age) {
         this.name = name;
@@ -28,12 +29,14 @@ public class Pet {
     public String getType() { return type; }
     public int getAge() { return age; }
     public String getStatus() { return status; }
+    public boolean isAdopted() { return adopted; }
 
     // Setters
     public void setName(String name) { this.name = name; }
     public void setType(String type) { this.type = type; }
     public void setAge(int age) { this.age = age; }
     public void setStatus(String status) { this.status = status; }
+    public void setAdopted(boolean adopted) { this.adopted = adopted; }
 
     @Override
     public String toString() {

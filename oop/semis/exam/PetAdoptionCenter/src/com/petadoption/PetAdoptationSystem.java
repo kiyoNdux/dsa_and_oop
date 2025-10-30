@@ -29,16 +29,21 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     
     private void populatePetDropdown() {
         jComboBox2.removeAllItems();
+
         for (Pet pet : petList) {
-            jComboBox2.addItem(pet.getName());
+            if (!pet.isAdopted()) { // Only show pets that are not yet adopted
+                jComboBox2.addItem(pet.getName());
+            }
         }
 
         if (jComboBox2.getItemCount() > 0) {
-            jComboBox2.setSelectedIndex(0);  // select first pet by default
+            jComboBox2.setSelectedIndex(0);  // select first available pet
         } else {
-            jComboBox2.setSelectedIndex(-1); // empty if no pets
+            jComboBox2.setSelectedIndex(-1); // empty if no available pets
+            JOptionPane.showMessageDialog(this, "No available pets for adoption.", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
 
     
     
