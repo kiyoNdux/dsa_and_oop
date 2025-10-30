@@ -22,6 +22,7 @@ public class Pet {
         this.type = type;
         this.age = age;
         this.status = "Available";
+        this.adopted = false;  
     }
 
     // Getters

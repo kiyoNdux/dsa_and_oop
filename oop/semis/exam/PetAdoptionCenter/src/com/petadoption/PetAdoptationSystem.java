@@ -444,12 +444,39 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             return;
         }
 
-        // Add record
+        // Check if selected pet is still available
+        Pet selectedPet = null;
+        for (Pet pet : petList) {
+            if (pet.getName().equals(petName)) {
+                selectedPet = pet;
+                break;
+            }
+        }
+
+        if (selectedPet == null) {
+            JOptionPane.showMessageDialog(this, "Selected pet not found!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (selectedPet.isAdopted()) {
+            JOptionPane.showMessageDialog(this, "This pet has already been adopted!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Mark pet as adopted
+        selectedPet.setAdopted(true);
+        selectedPet.setStatus("Adopted");
+
+        // Create and store adoption record
         AdoptionRecord record = new AdoptionRecord(adopterName, contactInfo, adoptionDate, petName, notes);
         adoptionRecords.add(record);
 
         JOptionPane.showMessageDialog(this, "Adoption record added successfully!");
+
+        // ✅ Refresh UI elements
         displayAdoptionRecords();
+        displayPets();           // Update pet table to show new status
+        populatePetDropdown();   // Remove adopted pet from dropdown
         clearAdoptionForm();
     }//GEN-LAST:event_jButton5ActionPerformed
 
@@ -514,7 +541,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
 
     // Add Button
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+            // TODO add your handling code here:
         try {
             String name = jTextField4.getText().trim();
             String type = jTextField5.getText().trim();
@@ -547,6 +574,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             }
 
             pet.setStatus(status);
+            pet.setAdopted(false);
 
             petList.add(pet);
             JOptionPane.showMessageDialog(this, "Pet added successfully!");
