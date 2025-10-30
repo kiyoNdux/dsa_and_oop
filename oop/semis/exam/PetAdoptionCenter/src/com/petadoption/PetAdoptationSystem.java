@@ -9,6 +9,7 @@ package com.petadoption;
  * @author PC
  */
 
+import com.petadoption.Pet;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -20,13 +21,41 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
      */
     
     private ArrayList<Pet> petList = new ArrayList<>();
+    private javax.swing.JTable jTableAdoptions;
+    private DefaultTableModel adoptionModel;
+    private ArrayList<AdoptionRecord> adoptionRecords = new ArrayList<>();
     private DefaultTableModel model;
     private javax.swing.JTable tblPets;
+    
+    private void populatePetDropdown() {
+        jComboBox2.removeAllItems();
+        for (Pet pet : petList) {
+            jComboBox2.addItem(pet.getName());
+        }
+
+        if (jComboBox2.getItemCount() > 0) {
+            jComboBox2.setSelectedIndex(0);  // select first pet by default
+        } else {
+            jComboBox2.setSelectedIndex(-1); // empty if no pets
+        }
+    }
+
     
     
     public PetAdoptationSystem() {
         initComponents();
         
+        
+        // Adoption table setup
+        adoptionModel = new DefaultTableModel(new Object[] { "Adopter", "Contact", "Date", "Pet", "Notes" }, 0);
+        jTableAdoptions = new javax.swing.JTable(adoptionModel);
+        javax.swing.JScrollPane adoptionScroll = new javax.swing.JScrollPane(jTableAdoptions);
+        jPanel2.add(adoptionScroll);
+        adoptionScroll.setBounds(250, 20, 400, 200); // adjust coordinates/sizing to match layout
+        jTableAdoptions.setFillsViewportHeight(true);
+        
+        populatePetDropdown();
+           
         // Add items to the combo box
         jComboBox1.removeAllItems(); // clear default items
         jComboBox1.addItem("Available");
@@ -60,6 +89,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     }
     
 
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,7 +101,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButton1ActionPerformed = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -101,10 +131,10 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Edit");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton1ActionPerformed.setText("Edit");
+        jButton1ActionPerformed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton1ActionPerformedActionPerformed(evt);
             }
         });
 
@@ -169,25 +199,21 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addContainerGap(636, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel3)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 225, Short.MAX_VALUE)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel3)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 225, Short.MAX_VALUE)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(jButton1ActionPerformed)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -216,7 +242,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
-                    .addComponent(jButton1)
+                    .addComponent(jButton1ActionPerformed)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
                 .addContainerGap())
@@ -378,16 +404,48 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     // Clear Fields Button
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
+        clearAdoptionForm();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     // Delete Record Button
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
+        int selectedRow = jTableAdoptions.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a record to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this record?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+        if (confirm == JOptionPane.YES_OPTION) {
+            adoptionRecords.remove(selectedRow);
+            displayAdoptionRecords();
+            JOptionPane.showMessageDialog(this, "Record deleted successfully.");
+        }
     }//GEN-LAST:event_jButton6ActionPerformed
 
     // Add Record Button
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        String adopterName = jTextField1.getText().trim();
+        String contactInfo = jTextField2.getText().trim();
+        String adoptionDate = jTextField3.getText().trim();
+        String petName = (String) jComboBox2.getSelectedItem();
+        String notes = jTextField7.getText().trim();
+
+        // Input validation
+        if (adopterName.isEmpty() || contactInfo.isEmpty() || adoptionDate.isEmpty() || petName == null) {
+            JOptionPane.showMessageDialog(this, "Please fill in all required fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Add record
+        AdoptionRecord record = new AdoptionRecord(adopterName, contactInfo, adoptionDate, petName, notes);
+        adoptionRecords.add(record);
+
+        JOptionPane.showMessageDialog(this, "Adoption record added successfully!");
+        displayAdoptionRecords();
+        clearAdoptionForm();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     // Notes
@@ -446,6 +504,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
         petList.remove(selectedRow);
         JOptionPane.showMessageDialog(this, "Pet deleted successfully!");
         displayPets();
+        populatePetDropdown();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     // Add Button
@@ -488,12 +547,14 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Pet added successfully!");
             displayPets();
             clearFields();
+            populatePetDropdown();
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Age must be a number!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Edit Button
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         int selectedRow = getSelectedRowIndex();
         if (selectedRow == -1) return; // no row selected
@@ -527,6 +588,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Pet updated successfully!");
             displayPets();
             clearFields();
+            populatePetDropdown();
 
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Age must be a number!", "Error", JOptionPane.ERROR_MESSAGE);
@@ -537,8 +599,8 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
  
 //GEN-LAST:event_jButton1ActionPerformed
 
-
-
+    // Helper Methods for Manage Pets
+    
     private void displayPets() {
         model.setRowCount(0); // Clear table
         for (Pet p : petList) {
@@ -552,6 +614,31 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
         jTextField6.setText("");
         jComboBox1.setSelectedIndex(0);
     }
+    
+    
+    // Helper Methods for Adoptation Records
+    
+    private void clearAdoptionForm() {
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jTextField7.setText("");
+        jComboBox2.setSelectedIndex(-1);
+    }
+
+    private void displayAdoptionRecords() {
+        adoptionModel.setRowCount(0);
+        for (AdoptionRecord r : adoptionRecords) {
+            adoptionModel.addRow(new Object[] {
+                r.getAdopterName(),
+                r.getContactInfo(),
+                r.getAdoptionDate(),
+                r.getPetName(),
+                r.getNotes()
+            });
+        }
+    }
+
 
 
 
@@ -606,7 +693,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton1ActionPerformed;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
