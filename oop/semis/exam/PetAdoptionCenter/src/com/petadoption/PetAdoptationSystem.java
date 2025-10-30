@@ -28,21 +28,23 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     private javax.swing.JTable tblPets;
     
     private void populatePetDropdown() {
-        jComboBox2.removeAllItems();
+        jComboBox2.removeAllItems(); // clear old items
 
         for (Pet pet : petList) {
-            if (!pet.isAdopted()) { // Only show pets that are not yet adopted
+            // Only include available pets
+            if (pet.getStatus().equalsIgnoreCase("Available")) {
                 jComboBox2.addItem(pet.getName());
             }
         }
 
         if (jComboBox2.getItemCount() > 0) {
-            jComboBox2.setSelectedIndex(0);  // select first available pet
+            jComboBox2.setSelectedIndex(0);  // select first pet
         } else {
-            jComboBox2.setSelectedIndex(-1); // empty if no available pets
+            jComboBox2.setSelectedIndex(-1); // nothing selected
             JOptionPane.showMessageDialog(this, "No available pets for adoption.", "Info", JOptionPane.INFORMATION_MESSAGE);
         }
     }
+
 
 
     
@@ -473,7 +475,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
 
         JOptionPane.showMessageDialog(this, "Adoption record added successfully!");
 
-        // ✅ Refresh UI elements
+        // Refresh UI elements
         displayAdoptionRecords();
         displayPets();           // Update pet table to show new status
         populatePetDropdown();   // Remove adopted pet from dropdown
@@ -647,6 +649,15 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
         jTextField6.setText("");
         jComboBox1.setSelectedIndex(0);
     }
+    
+    private void initPetStatusDropdown() {
+        jComboBox1.removeAllItems();
+        jComboBox1.addItem("Available");
+        jComboBox1.addItem("Pending");
+        jComboBox1.addItem("Adopted");
+        jComboBox1.setSelectedItem("Available");
+    }
+
     
     
     // Helper Methods for Adoptation Records
