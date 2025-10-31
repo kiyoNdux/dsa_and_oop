@@ -52,6 +52,44 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     public PetAdoptationSystem() {
         initComponents();
         
+        // About / Help Tab Text
+    String helpText = """
+🐾 PET ADOPTION MANAGEMENT SYSTEM
+Version: 1.0
+Developer: RM Villa
+
+📘 About
+This system allows users to manage pets and record adoptions efficiently.
+
+You can:
+• Add, edit, or delete pets and set their availability status.
+• Record adoptions that automatically update pet status to "Adopted".
+• View adoption history with adopter details and notes.
+
+💡 How to Use
+1. Manage Pets Tab
+   - Add new pets with name, type, and age.
+   - Edit or delete pet entries.
+   - Only pets with status "Available" can be adopted.
+
+2. Adoption Records Tab
+   - Record adoptions for available pets.
+   - Adopted pets will no longer appear in the dropdown.
+
+3. About / Help Tab
+   - Displays usage instructions and credits.
+
+🧭 Tips
+• Use clear pet names and consistent types (Dog, Cat, etc.).
+• Double-check adopter info before saving a record.
+• You can edit or delete adoption records anytime.
+
+💬 Support
+For bugs or suggestions, contact: support@petadopt.com
+""";
+
+    jTextArea1.setText(helpText);
+        
         
         // Adoption table setup
         adoptionModel = new DefaultTableModel(new Object[] { "Adopter", "Contact", "Date", "Pet", "Notes" }, 0);
@@ -93,6 +131,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
                 }
             }
         });
+        
     }
     
 
@@ -135,6 +174,8 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,7 +206,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
             }
         });
 
-        jButton4.setText("Refresh");
+        jButton4.setText("Clear");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -379,15 +420,22 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Adoption Records", jPanel2);
 
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(5);
+        jTextArea1.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(jTextArea1);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 674, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 674, Short.MAX_VALUE)
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 351, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 351, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("About / Help", jPanel3);
@@ -523,10 +571,33 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField4ActionPerformed
 
-    // Display Button
+    // Clear Button
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        displayPets();
+        jTextField1.setText("");  
+        jTextField2.setText("");  
+        jTextField3.setText("");  
+        jTextField4.setText("");  
+        jTextField5.setText("");  
+        jTextField6.setText("");  
+
+        // Reset status combo box
+        jComboBox1.setSelectedIndex(-1); 
+
+        // Unselect any selected row in the table
+        tblPets.clearSelection();
+
+        // Clear all rows from the JTable
+        model.setRowCount(0);
+
+        // Clear the pet list to keep backend data consistent
+        petList.clear();
+
+        // Refresh the dropdown in the Adoption tab
+        populatePetDropdown();
+
+        // Confirmation
+        JOptionPane.showMessageDialog(this, "All pet records have been cleared!");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     // Delete Button
@@ -758,7 +829,9 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
