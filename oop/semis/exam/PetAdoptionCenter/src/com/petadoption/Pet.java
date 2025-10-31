@@ -24,15 +24,13 @@ public class Pet {
         this.status = "Available";
         this.adopted = false;  
     }
-
-    // Getters
+  
     public String getName() { return name; }
     public String getType() { return type; }
     public int getAge() { return age; }
     public String getStatus() { return status; }
     public boolean isAdopted() { return adopted; }
 
-    // Setters
     public void setName(String name) { this.name = name; }
     public void setType(String type) { this.type = type; }
     public void setAge(int age) { this.age = age; }
