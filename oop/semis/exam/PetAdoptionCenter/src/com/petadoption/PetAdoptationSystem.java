@@ -21,11 +21,9 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
      */
     
     private ArrayList<Pet> petList = new ArrayList<>();
-    private javax.swing.JTable jTableAdoptions;
     private DefaultTableModel adoptionModel;
     private ArrayList<AdoptionRecord> adoptionRecords = new ArrayList<>();
     private DefaultTableModel model;
-    private javax.swing.JTable tblPets;
     
     private void populatePetDropdown() {
         jComboBox2.removeAllItems(); // clear old items
@@ -50,54 +48,86 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     
     
     public PetAdoptationSystem() {
+        try {
+
+        javax.swing.UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+
+        } catch (Exception ex) {
+            System.err.println("Failed to set look and feel: " + ex);
+        }
+
         initComponents();
         
-        // About / Help Tab Text
-    String helpText = """
-🐾 PET ADOPTION MANAGEMENT SYSTEM
-Version: 1.0
-Developer: RM Villa
-
-📘 About
-This system allows users to manage pets and record adoptions efficiently.
-
-You can:
-• Add, edit, or delete pets and set their availability status.
-• Record adoptions that automatically update pet status to "Adopted".
-• View adoption history with adopter details and notes.
-
-💡 How to Use
-1. Manage Pets Tab
-   - Add new pets with name, type, and age.
-   - Edit or delete pet entries.
-   - Only pets with status "Available" can be adopted.
-
-2. Adoption Records Tab
-   - Record adoptions for available pets.
-   - Adopted pets will no longer appear in the dropdown.
-
-3. About / Help Tab
-   - Displays usage instructions and credits.
-
-🧭 Tips
-• Use clear pet names and consistent types (Dog, Cat, etc.).
-• Double-check adopter info before saving a record.
-• You can edit or delete adoption records anytime.
-
-💬 Support
-For bugs or suggestions, contact: support@petadopt.com
-""";
-
-    jTextArea1.setText(helpText);
         
+        java.awt.Font font = new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14);
+        this.setFont(font);
+
+        jTabbedPane1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        jTable1.setFont(font);
+        jTable1.setRowHeight(24);
+        jTable2.setFont(font);
+        jTable2.setRowHeight(24);
+        
+        jButton2.setBackground(new java.awt.Color(76, 175, 80)); // Green for Add
+        jButton2.setForeground(java.awt.Color.WHITE);
+
+        jButton1.setBackground(new java.awt.Color(33, 150, 243)); // Blue for Edit
+        jButton1.setForeground(java.awt.Color.WHITE);
+
+        jButton3.setBackground(new java.awt.Color(244, 67, 54)); // Red for Delete
+        jButton3.setForeground(java.awt.Color.WHITE);
+
+        jButton4.setBackground(new java.awt.Color(158, 158, 158)); // Gray for Clear
+        jButton4.setForeground(java.awt.Color.WHITE);
+
+
+        
+        // About / Help Tab Text
+        String helpText = """
+    🐾 PET ADOPTION MANAGEMENT SYSTEM
+    Version: 1.0
+    Developer: RM Villa
+
+    📘 About
+    This system allows users to manage pets and record adoptions efficiently.
+
+    You can:
+    • Add, edit, or delete pets and set their availability status.
+    • Record adoptions that automatically update pet status to "Adopted".
+    • View adoption history with adopter details and notes.
+
+    💡 How to Use
+    1. Manage Pets Tab
+       - Add new pets with name, type, and age.
+       - Edit or delete pet entries.
+       - Only pets with status "Available" can be adopted.
+
+    2. Adoption Records Tab
+       - Record adoptions for available pets.
+       - Adopted pets will no longer appear in the dropdown.
+
+    3. About / Help Tab
+       - Displays usage instructions and credits.
+
+    🧭 Tips
+    • Use clear pet names and consistent types (Dog, Cat, etc.).
+    • Double-check adopter info before saving a record.
+    • You can edit or delete adoption records anytime.
+
+    💬 Support
+    For bugs or suggestions, contact: support@petadopt.com
+    """;
+
+        jTextArea1.setText(helpText);
+
         
         // Adoption table setup
         adoptionModel = new DefaultTableModel(new Object[] { "Adopter", "Contact", "Date", "Pet", "Notes" }, 0);
-        jTableAdoptions = new javax.swing.JTable(adoptionModel);
-        javax.swing.JScrollPane adoptionScroll = new javax.swing.JScrollPane(jTableAdoptions);
+        jTable2 = new javax.swing.JTable(adoptionModel);
+        javax.swing.JScrollPane adoptionScroll = new javax.swing.JScrollPane(jTable2);
         jPanel2.add(adoptionScroll);
         adoptionScroll.setBounds(250, 20, 400, 200); // adjust coordinates/sizing to match layout
-        jTableAdoptions.setFillsViewportHeight(true);
+        jTable2.setFillsViewportHeight(true);
         
         populatePetDropdown();
            
@@ -111,17 +141,17 @@ For bugs or suggestions, contact: support@petadopt.com
 
         // Initialize the table model (columns)
         model = new DefaultTableModel(new Object[]{"Name", "Type", "Age", "Status"}, 0);
-        tblPets = new javax.swing.JTable(model);
-        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(tblPets);
+        jTable1 = new javax.swing.JTable(model);
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane(jTable1);
         jPanel1.add(scrollPane);
         scrollPane.setBounds(250, 20, 400, 200);
-        tblPets.setFillsViewportHeight(true);
+        jTable1.setFillsViewportHeight(true);
 
         // Prefill text fields when row is clicked
-        tblPets.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                int row = tblPets.getSelectedRow();
+                int row = jTable1.getSelectedRow();
                 if (row >= 0) {
                     Pet pet = petList.get(row);
                     jTextField4.setText(pet.getName());
@@ -159,6 +189,8 @@ For bugs or suggestions, contact: support@petadopt.com
         jTextField6 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
@@ -173,6 +205,8 @@ For bugs or suggestions, contact: support@petadopt.com
         jButton6 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
@@ -240,6 +274,19 @@ For bugs or suggestions, contact: support@petadopt.com
             }
         });
 
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Name", "Type", "Age", "Status"
+            }
+        ));
+        jScrollPane3.setViewportView(jTable1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -248,15 +295,17 @@ For bugs or suggestions, contact: support@petadopt.com
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel4)
+                    .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel3)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.Alignment.LEADING, 0, 225, Short.MAX_VALUE)
                         .addComponent(jTextField6, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jTextField5, javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.LEADING)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(196, Short.MAX_VALUE)
                 .addComponent(jButton2)
@@ -271,23 +320,29 @@ For bugs or suggestions, contact: support@petadopt.com
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(11, 11, 11)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(11, 11, 11)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton2)
                     .addComponent(jButton1)
@@ -360,6 +415,19 @@ For bugs or suggestions, contact: support@petadopt.com
             }
         });
 
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Pet Name", "Adopter Name", "Contact Info", "Adoptation Date", "Notes"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -377,7 +445,9 @@ For bugs or suggestions, contact: support@petadopt.com
                     .addComponent(jTextField2)
                     .addComponent(jTextField3)
                     .addComponent(jTextField7))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(181, Short.MAX_VALUE)
                 .addComponent(jButton5)
@@ -391,26 +461,30 @@ For bugs or suggestions, contact: support@petadopt.com
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 42, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton5)
                     .addComponent(jButton6)
@@ -465,7 +539,7 @@ For bugs or suggestions, contact: support@petadopt.com
     // Delete Record Button
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        int selectedRow = jTableAdoptions.getSelectedRow();
+        int selectedRow = jTable2.getSelectedRow();
         if (selectedRow == -1) {
             JOptionPane.showMessageDialog(this, "Please select a record to delete.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -585,7 +659,7 @@ For bugs or suggestions, contact: support@petadopt.com
         jComboBox1.setSelectedIndex(-1); 
 
         // Unselect any selected row in the table
-        tblPets.clearSelection();
+        jTable1.clearSelection();
 
         // Clear all rows from the JTable
         model.setRowCount(0);
@@ -830,7 +904,11 @@ For bugs or suggestions, contact: support@petadopt.com
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
