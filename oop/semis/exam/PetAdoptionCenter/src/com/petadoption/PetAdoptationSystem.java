@@ -720,20 +720,18 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     private void customizeUI() {
         java.awt.Font font = new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14);
 
-        // Tables
+        // Tables - use default background, but improve font and selection color
         jTable1.setFont(font); 
-        jTable1.setRowHeight(24);
-        jTable1.setBackground(new java.awt.Color(240, 240, 240));
-        jTable1.setForeground(java.awt.Color.BLACK);
-        jTable1.setSelectionBackground(new java.awt.Color(173, 216, 230));
+        jTable1.setRowHeight(22);
+        jTable1.setForeground(java.awt.Color.DARK_GRAY);
+        jTable1.setSelectionBackground(new java.awt.Color(220, 235, 245));
         jTable1.setSelectionForeground(java.awt.Color.BLACK);
         jTable1.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
 
         jTable2.setFont(font); 
-        jTable2.setRowHeight(24);
-        jTable2.setBackground(new java.awt.Color(240, 240, 240));
-        jTable2.setForeground(java.awt.Color.BLACK);
-        jTable2.setSelectionBackground(new java.awt.Color(173, 216, 230));
+        jTable2.setRowHeight(22);
+        jTable2.setForeground(java.awt.Color.DARK_GRAY);
+        jTable2.setSelectionBackground(new java.awt.Color(220, 235, 245));
         jTable2.setSelectionForeground(java.awt.Color.BLACK);
         jTable2.getTableHeader().setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
 
@@ -753,11 +751,11 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     private void styleButton(javax.swing.JButton button, java.awt.Color bgColor) {
         button.setBackground(bgColor);
         button.setForeground(java.awt.Color.WHITE);
-        button.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        button.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
         button.setBorderPainted(false);
         button.setFocusPainted(false);
         button.setOpaque(true);
-        
+
         // Add hover effect
         button.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -770,44 +768,47 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     }
 
     private void styleAllFields() {
-    // Labels
-    java.awt.Font labelFont = new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14);
-    jLabel1.setFont(labelFont);
-    jLabel2.setFont(labelFont);
-    jLabel3.setFont(labelFont);
-    jLabel4.setFont(labelFont);
-    jLabel5.setFont(labelFont);
-    jLabel6.setFont(labelFont);
-    jLabel7.setFont(labelFont);
-    jLabel8.setFont(labelFont);
-    jLabel9.setFont(labelFont);
+        // Labels - use regular font, not bold
+        java.awt.Font labelFont = new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14);
+        jLabel1.setFont(labelFont);
+        jLabel2.setFont(labelFont);
+        jLabel3.setFont(labelFont);
+        jLabel4.setFont(labelFont);
+        jLabel5.setFont(labelFont);
+        jLabel6.setFont(labelFont);
+        jLabel7.setFont(labelFont);
+        jLabel8.setFont(labelFont);
+        jLabel9.setFont(labelFont);
 
-    // Text Fields
-    javax.swing.border.Border textBorder = javax.swing.BorderFactory.createCompoundBorder(
-        javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)),
-        javax.swing.BorderFactory.createEmptyBorder(5, 7, 5, 7)
-    );
-    
-    java.awt.Font fieldFont = new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14);
-    javax.swing.JTextField[] textFields = {jTextField1, jTextField2, jTextField3, 
-                                         jTextField4, jTextField5, jTextField6, jTextField7};
-    
-    for (javax.swing.JTextField field : textFields) {
-        field.setFont(fieldFont);
-        field.setBorder(textBorder);
-        field.setBackground(java.awt.Color.WHITE);
-        field.setForeground(java.awt.Color.BLACK);
-    }
+        // Text Fields
+        javax.swing.border.Border textBorder = javax.swing.BorderFactory.createCompoundBorder(
+            javax.swing.BorderFactory.createLineBorder(new java.awt.Color(210, 210, 210)),
+            javax.swing.BorderFactory.createEmptyBorder(5, 7, 5, 7)
+        );
+        java.awt.Font fieldFont = new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14);
+        javax.swing.JTextField[] textFields = {jTextField1, jTextField2, jTextField3, 
+                                             jTextField4, jTextField5, jTextField6, jTextField7};
+        for (javax.swing.JTextField field : textFields) {
+            field.setFont(fieldFont);
+            field.setBorder(textBorder);
+            field.setBackground(java.awt.Color.WHITE);
+            field.setForeground(java.awt.Color.DARK_GRAY);
+        }
 
-    // Combo Boxes
-    javax.swing.JComboBox[] comboBoxes = {jComboBox1, jComboBox2};
-    for (javax.swing.JComboBox box : comboBoxes) {
-        box.setFont(fieldFont);
-        box.setBorder(textBorder);
-        box.setBackground(java.awt.Color.WHITE);
-        box.setForeground(java.awt.Color.BLACK);
+        // Combo Boxes
+        javax.swing.JComboBox[] comboBoxes = {jComboBox1, jComboBox2};
+        for (javax.swing.JComboBox box : comboBoxes) {
+            box.setFont(fieldFont);
+            box.setBorder(textBorder);
+            box.setBackground(java.awt.Color.WHITE);
+            box.setForeground(java.awt.Color.DARK_GRAY);
+        }
+
+        // Text Area (About/Help)
+        jTextArea1.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 14));
+        jTextArea1.setBackground(java.awt.Color.WHITE);
+        jTextArea1.setForeground(java.awt.Color.DARK_GRAY);
     }
-}
     
     private DefaultTableModel petTableModel;
     private DefaultTableModel adoptionTableModel;
@@ -853,11 +854,11 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     
     private void setHelpText() {
         String helpText = """
-    🐾 PET ADOPTION MANAGEMENT SYSTEM
+    PET ADOPTION MANAGEMENT SYSTEM
     Version: 1.0
     Developer: RM Villa
 
-    📘 About
+    About
     This system allows users to manage pets and record adoptions efficiently.
 
     You can:
@@ -865,7 +866,7 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     • Record adoptions that automatically update pet status to "Adopted".
     • View adoption history with adopter details and notes.
 
-    💡 How to Use
+    How to Use
     1. Manage Pets Tab
        - Add new pets with name, type, and age.
        - Edit or delete pet entries.
@@ -878,12 +879,12 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
     3. About / Help Tab
        - Displays usage instructions and credits.
 
-    🧭 Tips
+    Tips
     • Use clear pet names and consistent types (Dog, Cat, etc.).
     • Double-check adopter info before saving a record.
     • You can edit or delete adoption records anytime.
 
-    💬 Support
+    Support
     For bugs or suggestions, contact: support@petadopt.com
     """;
 
