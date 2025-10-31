@@ -536,14 +536,23 @@ public class PetAdoptationSystem extends javax.swing.JFrame {
 
     // Clear Button
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        // Clear only the Manage Pets input fields (do not delete stored data)
+        // Clear all pets from the list and table
+        petList.clear();
+        if (petTableModel != null) {
+            petTableModel.setRowCount(0);
+        }
+
+        // Remove all items from the Pet Name dropdown in Adoption Records
+        jComboBox2.removeAllItems();
+
+        // Clear input fields
         jTextField4.setText("");
         jTextField5.setText("");
         jTextField6.setText("");
         jComboBox1.setSelectedIndex(0);
         jTable1.clearSelection();
-        JOptionPane.showMessageDialog(this, "Input fields cleared.");
+
+        JOptionPane.showMessageDialog(this, "All pets and input fields cleared.");
     }//GEN-LAST:event_jButton4ActionPerformed
 
     // Delete Button
