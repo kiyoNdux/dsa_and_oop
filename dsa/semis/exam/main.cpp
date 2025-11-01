@@ -2,7 +2,8 @@
 #include <string>
 using namespace std;
 
-// Stack â€“ Edit History
+
+// Stack – Edit History
 struct EditNode {
     string action;
     EditNode* next;
@@ -15,30 +16,30 @@ private:
 public:
     EditHistory() : top(nullptr) {}
 
-    void pushEdit(const string& action) {
-        EditNode* newNode = new EditNode(action);
-        newNode->next = top;
-        top = newNode;
+    void push_edit(const string& action) {
+        EditNode* new_node = new EditNode(action);
+        new_node->next = top;
+        top = new_node;
         cout << "Edit applied: " << action << endl;
     }
 
-    void undoEdit() {
+    void undo_edit() {
         if (!top) {
-            cout << "No edits to undo.\n";
+            cout << "No edits to undo." << endl;
             return;
         }
-        cout << "â†©ï¸ Undoing last edit: " << top->action << endl;
+        cout << "Undoing last edit: " << top->action << endl;
         EditNode* temp = top;
         top = top->next;
         delete temp;
     }
 
-    void displayHistory() const {
+    void display_history() const {
         if (!top) {
-            cout << "No edit history.\n";
+            cout << "No edit history." << endl;
             return;
         }
-        cout << "Edit History:\n";
+        cout << "Edit History:" << endl;
         EditNode* current = top;
         while (current) {
             cout << "  - " << current->action << endl;
@@ -56,11 +57,11 @@ public:
 };
 
 
-// Queue â€“ Export Jobs
+// Queue – Export Jobs
 struct ExportNode {
-    string photoName;
+    string photo_name;
     ExportNode* next;
-    ExportNode(string name) : photoName(name), next(nullptr) {}
+    ExportNode(string name) : photo_name(name), next(nullptr) {}
 };
 
 class ExportQueue {
@@ -70,38 +71,39 @@ private:
 public:
     ExportQueue() : front(nullptr), rear(nullptr) {}
 
-    void enqueueExport(const string& photoName) {
-        ExportNode* newNode = new ExportNode(photoName);
+    void enqueue_export(const string& photo_name) {
+        ExportNode* new_node = new ExportNode(photo_name);
         if (!rear) {
-            front = rear = newNode;
+            front = rear = new_node;
         } else {
-            rear->next = newNode;
-            rear = newNode;
+            rear->next = new_node;
+            rear = new_node;
         }
-        cout << "Added to export queue: " << photoName << endl;
+        cout << "Added to export queue: " << photo_name << endl;
     }
 
-    void dequeueExport() {
+    void dequeue_export() {
         if (!front) {
-            cout << "No export jobs pending.\n";
+            cout << "No export jobs pending." << endl;
             return;
         }
-        cout << "Exporting photo: " << front->photoName << "...\nExport complete!\n";
+        cout << "Exporting photo: " << front->photo_name << "..." << endl;
+        cout << "Export complete!" << endl;
         ExportNode* temp = front;
         front = front->next;
         if (!front) rear = nullptr;
         delete temp;
     }
 
-    void displayQueue() const {
+    void display_queue() const {
         if (!front) {
-            cout << "No photos in export queue.\n";
+            cout << "No photos in export queue." << endl;
             return;
         }
-        cout << "Export Queue:\n";
+        cout << "Export Queue:" << endl;
         ExportNode* current = front;
         while (current) {
-            cout << "  - " << current->photoName << endl;
+            cout << "  - " << current->photo_name << endl;
             current = current->next;
         }
     }
@@ -116,7 +118,7 @@ public:
 };
 
 
-// Binary Tree â€“ Photo Library
+// Binary Search Tree – Photo Library
 struct PhotoNode {
     string name;
     PhotoNode* left;
@@ -135,7 +137,7 @@ private:
         else if (name > node->name)
             node->right = insert(node->right, name);
         else
-            cout << "Photo already exists.\n";
+            cout << "Photo already exists." << endl;
         return node;
     }
 
@@ -163,24 +165,24 @@ private:
 public:
     PhotoLibrary() : root(nullptr) {}
 
-    void addPhoto(const string& name) {
+    void add_photo(const string& name) {
         root = insert(root, name);
         cout << "Photo added: " << name << endl;
     }
 
-    void searchPhoto(const string& name) const {
+    void search_photo(const string& name) const {
         if (search(root, name))
             cout << "Found photo: " << name << endl;
         else
             cout << "Photo not found: " << name << endl;
     }
 
-    void displayLibrary() const {
+    void display_library() const {
         if (!root) {
-            cout << "Library is empty.\n";
+            cout << "Library is empty." << endl;
             return;
         }
-        cout << "Photo Library (Aâ€“Z):\n";
+        cout << "Photo Library (A–Z):" << endl;
         inorder(root);
     }
 
@@ -190,8 +192,7 @@ public:
 };
 
 
-// Main â€“ Photo Editor
-
+// Main Program – Photo Editor
 int main() {
     PhotoLibrary library;
     EditHistory edits;
@@ -200,9 +201,9 @@ int main() {
     int choice;
     string input;
 
-    cout << "=============================\n";
-    cout << " Mini Photo Editing Software\n";
-    cout << "=============================\n";
+    cout << "=============================" << endl;
+    cout << " Mini Photo Editing Software" << endl;
+    cout << "=============================" << endl;
 
     do {
         cout << "\nMenu:\n";
@@ -224,43 +225,43 @@ int main() {
             case 1:
                 cout << "Enter photo name: ";
                 getline(cin, input);
-                library.addPhoto(input);
+                library.add_photo(input);
                 break;
             case 2:
                 cout << "Enter photo name to search: ";
                 getline(cin, input);
-                library.searchPhoto(input);
+                library.search_photo(input);
                 break;
             case 3:
-                library.displayLibrary();
+                library.display_library();
                 break;
             case 4:
                 cout << "Enter edit action: ";
                 getline(cin, input);
-                edits.pushEdit(input);
+                edits.push_edit(input);
                 break;
             case 5:
-                edits.undoEdit();
+                edits.undo_edit();
                 break;
             case 6:
-                edits.displayHistory();
+                edits.display_history();
                 break;
             case 7:
                 cout << "Enter photo name to export: ";
                 getline(cin, input);
-                exports.enqueueExport(input);
+                exports.enqueue_export(input);
                 break;
             case 8:
-                exports.dequeueExport();
+                exports.dequeue_export();
                 break;
             case 9:
-                exports.displayQueue();
+                exports.display_queue();
                 break;
             case 0:
-                cout << "Exiting program...\n";
+                cout << "Exiting program..." << endl;
                 break;
             default:
-                cout << "Invalid choice.\n";
+                cout << "Invalid choice." << endl;
         }
     } while (choice != 0);
 
