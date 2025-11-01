@@ -3,7 +3,8 @@
 using namespace std;
 
 
-// Stack – Edit History
+// ----- Stack – Edit History -----
+
 struct EditNode {
     string action;
     EditNode* next;
@@ -57,7 +58,7 @@ public:
 };
 
 
-// Queue – Export Jobs
+// ----- Queue – Export Jobs -----
 struct ExportNode {
     string photo_name;
     ExportNode* next;
@@ -118,7 +119,7 @@ public:
 };
 
 
-// Binary Search Tree – Photo Library
+// ----- Binary Tree – Photo Library -----
 struct PhotoNode {
     string name;
     PhotoNode* left;
@@ -141,11 +142,11 @@ private:
         return node;
     }
 
-    bool search(PhotoNode* node, const string& name) const {
+    bool find_photo_recursive(PhotoNode* node, const string& name) const {
         if (!node) return false;
         if (node->name == name) return true;
-        if (name < node->name) return search(node->left, name);
-        else return search(node->right, name);
+        if (name < node->name) return find_photo_recursive(node->left, name);
+        else return find_photo_recursive(node->right, name);
     }
 
     void inorder(PhotoNode* node) const {
@@ -155,10 +156,10 @@ private:
         inorder(node->right);
     }
 
-    void clear(PhotoNode* node) {
+    void clear_library_recursive(PhotoNode* node) {
         if (!node) return;
-        clear(node->left);
-        clear(node->right);
+        clear_library_recursive(node->left);
+        clear_library_recursive(node->right);
         delete node;
     }
 
@@ -171,7 +172,7 @@ public:
     }
 
     void search_photo(const string& name) const {
-        if (search(root, name))
+        if (find_photo_recursive(root, name))
             cout << "Found photo: " << name << endl;
         else
             cout << "Photo not found: " << name << endl;
@@ -182,17 +183,18 @@ public:
             cout << "Library is empty." << endl;
             return;
         }
-        cout << "Photo Library (A–Z):" << endl;
+        cout << "Photo Library (A-Z):" << endl;
         inorder(root);
     }
 
     ~PhotoLibrary() {
-        clear(root);
+        clear_library_recursive(root);
     }
 };
 
 
-// Main Program – Photo Editor
+
+// ----- Main Program – Photo Editor -----
 int main() {
     PhotoLibrary library;
     EditHistory edits;
