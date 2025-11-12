@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="RemarksLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="GradeLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="FinalLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="SemiFinalLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="MidtermLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="PrelimLabel" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="ComputePercentageButton" pref="285" max="32767" attributes="0"/>
+                  <Component id="ComputeAverageButton" max="32767" attributes="0"/>
+                  <Component id="PrelimTextField" max="32767" attributes="0"/>
+                  <Component id="MidtermTextField" max="32767" attributes="0"/>
+                  <Component id="SemiFinalTextField" max="32767" attributes="0"/>
+                  <Component id="FInalTextField" max="32767" attributes="0"/>
+                  <Component id="GradeTextField" max="32767" attributes="0"/>
+                  <Component id="RemarksTextField" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace pref="57" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="PrelimTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="PrelimLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="MidtermTextField" min="-2" max="-2" attributes="0"/>
+                  <Component id="MidtermLabel" min="-2" pref="16" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="SemiFinalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="SemiFinalTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="FinalLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="FInalTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="ComputeAverageButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="ComputePercentageButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="GradeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="GradeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="RemarksLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="RemarksTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="38" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JTextField" name="PrelimTextField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="PrelimTextFieldActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="PrelimLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Prelim"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="MidtermLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Midterm"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="MidtermTextField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MidtermTextFieldActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="SemiFinalLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Semi Final"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="SemiFinalTextField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SemiFinalTextFieldActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="FinalLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Final"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="FInalTextField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="FInalTextFieldActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="ComputeAverageButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="COMPUTE BASED ON AVERAGE"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComputeAverageButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="ComputePercentageButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="COMPUTE BASED ON PERCENTAGE"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComputePercentageButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="GradeLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="GRADE"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="GradeTextField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="GradeTextFieldActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="RemarksLabel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="REMARKS"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="RemarksTextField">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="RemarksTextFieldActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>
