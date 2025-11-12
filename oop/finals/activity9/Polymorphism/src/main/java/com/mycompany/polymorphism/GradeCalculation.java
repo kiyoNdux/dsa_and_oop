@@ -3,18 +3,37 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.polymorphism;
+import java.text.DecimalFormat;
 
-/**
- *
- * @author PC
- */
 public class GradeCalculation extends javax.swing.JFrame {
+    // Global variables
+    double grade;
+    DecimalFormat frm = new DecimalFormat("0.00");
 
-    /**
-     * Creates new form GradeCalculation
-     */
     public GradeCalculation() {
         initComponents();
+    }
+    
+    // ---Polymorphism---
+
+    // compute grade based on average
+    public double computeGrade(double sum) {
+        grade = sum / 4;
+        return grade;
+    }
+
+    // compute grade based on weighted percentage
+    public double computeGrade(double prelim, double midterm, double semi, double finalGrade) {
+        grade = (prelim * 0.20) + (midterm * 0.20) + (semi * 0.20) + (finalGrade * 0.40);
+        return grade;
+    }
+
+    // Returns remarks based on grade
+    public String getRemarks() {
+        if (grade >= 75)
+            return "PASSED";
+        else
+            return "FAILED";
     }
 
     /**
@@ -128,7 +147,7 @@ public class GradeCalculation extends javax.swing.JFrame {
                     .addComponent(FInalTextField)
                     .addComponent(GradeTextField)
                     .addComponent(RemarksTextField))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(86, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,11 +203,36 @@ public class GradeCalculation extends javax.swing.JFrame {
     }//GEN-LAST:event_FInalTextFieldActionPerformed
 
     private void ComputeAverageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComputeAverageButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            double prelim = Double.parseDouble(PrelimTextField.getText());
+            double midterm = Double.parseDouble(MidtermTextField.getText());
+            double semi = Double.parseDouble(SemiFinalTextField.getText());
+            double finalGrade = Double.parseDouble(FInalTextField.getText());
+
+            double sum = prelim + midterm + semi + finalGrade;
+            double gradeResult = computeGrade(sum);
+
+            GradeTextField.setText(frm.format(gradeResult));
+            RemarksTextField.setText(getRemarks());
+        } catch (NumberFormatException e) {
+            RemarksTextField.setText("Invalid Input");
+        }
     }//GEN-LAST:event_ComputeAverageButtonActionPerformed
 
     private void ComputePercentageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComputePercentageButtonActionPerformed
-        // TODO add your handling code here:
+        try {
+            double prelim = Double.parseDouble(PrelimTextField.getText());
+            double midterm = Double.parseDouble(MidtermTextField.getText());
+            double semi = Double.parseDouble(SemiFinalTextField.getText());
+            double finalGrade = Double.parseDouble(FInalTextField.getText());
+
+            double gradeResult = computeGrade(prelim, midterm, semi, finalGrade);
+
+            GradeTextField.setText(frm.format(gradeResult) + "%");
+            RemarksTextField.setText(getRemarks());
+        } catch (NumberFormatException e) {
+            RemarksTextField.setText("Invalid Input");
+        }
     }//GEN-LAST:event_ComputePercentageButtonActionPerformed
 
     private void GradeTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_GradeTextFieldActionPerformed
