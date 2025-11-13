@@ -2,7 +2,10 @@
 #include <vector>
 #include <algorithm>
 #include <iomanip>
+#include <chrono>
+#include <cstdlib>
 using namespace std;
+using namespace std::chrono;
 
 struct AIMock {
     string name;
@@ -127,6 +130,8 @@ void sort_mocks(vector<AIMock> &mocks) {
     cout << "\nSorting using: " << sort_name << "\n";
     display_mocks(before_sort, "Before Sorting");
 
+    auto start = high_resolution_clock::now();
+
     switch (choice) {
         case 1: selection_sort(mocks); break;
         case 2: insertion_sort(mocks); break;
@@ -134,7 +139,10 @@ void sort_mocks(vector<AIMock> &mocks) {
         case 4: merge_sort(mocks, 0, mocks.size() - 1); break;
     }
 
-    cout << "\nSorted successfully using " << sort_name << "!\n";
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<milliseconds>(end - start);
+
+    cout << "\nSorted successfully using " << sort_name << " in " << duration.count() << " ms!\n";
     display_mocks(mocks, "After Sorting");
 }
 
@@ -199,12 +207,57 @@ void search_mocks(const vector<AIMock> &mocks) {
     }
 }
 
+// Utility to generate random mock data
+vector<AIMock> generate_mocks(int count) {
+    vector<AIMock> mocks;
+    for (int i = 0; i < count; ++i) {
+        AIMock m;
+        m.name = "Mock_" + to_string(i + 1);
+        m.score = rand() % 101;
+        mocks.push_back(m);
+    }
+    return mocks;
+}
+
+// Compare runtimes of all sorts
+void benchmark_sorts() {
+    cout << "\n[ALGORITHM RUNTIME BENCHMARK]\n";
+
+    vector<int> sizes = {10, 100, 1000};
+
+    for (int size : sizes) {
+        cout << "\nBenchmarking list size: " << size << "\n";
+        vector<AIMock> base_mocks = generate_mocks(size);
+
+        vector<pair<string, void(*)(vector<AIMock>&)>> algorithms = {
+            {"Selection Sort", selection_sort},
+            {"Insertion Sort", insertion_sort},
+            {"Bubble Sort", bubble_sort}
+        };
+
+        // Merge sort handled separately due to recursion
+        for (auto &[name, func] : algorithms) {
+            vector<AIMock> data = base_mocks;
+            auto start = high_resolution_clock::now();
+            func(data);
+            auto end = high_resolution_clock::now();
+            cout << setw(20) << left << name << duration_cast<milliseconds>(end - start).count() << " ms\n";
+        }
+
+        vector<AIMock> data = base_mocks;
+        auto start = high_resolution_clock::now();
+        merge_sort(data, 0, data.size() - 1);
+        auto end = high_resolution_clock::now();
+        cout << setw(20) << left << "Merge Sort" << duration_cast<milliseconds>(end - start).count() << " ms\n";
+    }
+}
+
 int main() {
     vector<AIMock> mocks;
     int choice;
 
     cout << "=============================\n";
-    cout << "   AI Mock Database (CLI)\n";
+    cout << "   AI Mock Database\n";
     cout << "=============================\n";
 
     do {
@@ -212,18 +265,20 @@ int main() {
         cout << "[1] Add New AI Mock\n";
         cout << "[2] Sort AI Mocks\n";
         cout << "[3] Search AI Mocks\n";
-        cout << "[4] Exit\n";
-        cout << "Select an option (1-4): ";
+        cout << "[4] Benchmark Sorting Algorithms\n";
+        cout << "[5] Exit\n";
+        cout << "Select an option (1-5): ";
         cin >> choice;
 
         switch (choice) {
             case 1: add_mock(mocks); break;
             case 2: sort_mocks(mocks); break;
             case 3: search_mocks(mocks); break;
-            case 4: cout << "\nExiting program... Goodbye!\n"; break;
-            default: cout << "\nInvalid choice. Please select 1-4.\n"; break;
+            case 4: benchmark_sorts(); break;
+            case 5: cout << "\nExiting program... Goodbye!\n"; break;
+            default: cout << "\nInvalid choice. Please select 1-5.\n"; break;
         }
-    } while (choice != 4);
+    } while (choice != 5);
 
     return 0;
 }
