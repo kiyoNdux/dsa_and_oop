@@ -13,5 +13,10 @@ public class Dog extends Pet {
     public Dog(String name, int age) { super(name, "Dog", age); }
     @Override
     public String makeSound() { return "Woof!"; }
+    
+    @Override
+    public String eat() {
+        return getName() + " gobbles the dog food happily.";
+    }
 }
 

@@ -11,7 +11,13 @@ package com.petadoption;
 
 public class Cat extends Pet {
     public Cat(String name, int age) { super(name, "Cat", age); }
+    
     @Override
     public String makeSound() { return "Meow!"; }
+    
+    @Override
+    public String eat() {
+        return getName() + " nibbles on some fish.";
+    }
 }
 

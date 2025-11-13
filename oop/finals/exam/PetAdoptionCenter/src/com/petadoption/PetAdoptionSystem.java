@@ -606,6 +606,7 @@ public class PetAdoptionSystem extends javax.swing.JFrame {
             // Demonstrate polymorphism right here
             for (Pet p : petList) {
                 System.out.println(p.getName() + " says " + p.makeSound());
+                System.out.println(pet.eat());
             }
 
             displayPets();
@@ -661,7 +662,7 @@ public class PetAdoptionSystem extends javax.swing.JFrame {
 
 //GEN-LAST:event_jButton1ActionPerformed
 
-    // Helper Methods for Manage Pets
+    // ---Helper Methods for Manage Pets---
     
     private void displayPets() {
         // update pet table model
@@ -690,8 +691,8 @@ public class PetAdoptionSystem extends javax.swing.JFrame {
 
     
     
-    // Helper Methods for Adoptation Records
-    
+    // ---Helper Methods for Adoptation Records---
+   
     private void clearAdoptionForm() {
          adopterNameTextFieldAR.setText("");
          contactInfoTextFieldAR.setText("");

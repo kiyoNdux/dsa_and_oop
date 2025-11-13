@@ -39,6 +39,7 @@ public abstract class Pet {
 
     // Abstract method (forces subclasses to define their own behavior)
     public abstract String makeSound();
+    public abstract String eat();
 
     @Override
     public String toString() {
