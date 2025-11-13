@@ -10,7 +10,8 @@ package com.petadoption;
  */
 
 public class Dog extends Pet {
-    public Dog(String name, int age) {
-        super(name, "Dog", age);
-    }
+    public Dog(String name, int age) { super(name, "Dog", age); }
+    @Override
+    public String makeSound() { return "Woof!"; }
 }
+

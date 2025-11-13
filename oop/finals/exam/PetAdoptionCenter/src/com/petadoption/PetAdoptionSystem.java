@@ -591,7 +591,10 @@ public class PetAdoptionSystem extends javax.swing.JFrame {
             } else if (type.equalsIgnoreCase("Cat")) {
                 pet = new Cat(name, age);
             } else {
-                pet = new Pet(name, type, age);
+                // You can’t directly instantiate Pet if it’s abstract
+                // So this fallback only works if Pet is still concrete.
+                JOptionPane.showMessageDialog(this, "Only Dogs and Cats are supported currently.");
+                return;
             }
 
             pet.setStatus(status);
@@ -599,6 +602,12 @@ public class PetAdoptionSystem extends javax.swing.JFrame {
 
             petList.add(pet);
             JOptionPane.showMessageDialog(this, "Pet added successfully!");
+
+            // Demonstrate polymorphism right here
+            for (Pet p : petList) {
+                System.out.println(p.getName() + " says " + p.makeSound());
+            }
+
             displayPets();
             clearFields();
             populatePetDropdown();

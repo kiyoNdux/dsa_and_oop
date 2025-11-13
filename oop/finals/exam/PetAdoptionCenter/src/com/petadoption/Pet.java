@@ -10,12 +10,12 @@ package com.petadoption;
  */
 
 
-public class Pet {
+public abstract class Pet {
     private String name;
     private String type;
     private int age;
     private String status;
-    private boolean adopted; 
+    private boolean adopted;  
 
     public Pet(String name, String type, int age) {
         this.name = name;
@@ -24,7 +24,7 @@ public class Pet {
         this.status = "Available";
         this.adopted = false;  
     }
-  
+
     public String getName() { return name; }
     public String getType() { return type; }
     public int getAge() { return age; }
@@ -37,8 +37,12 @@ public class Pet {
     public void setStatus(String status) { this.status = status; }
     public void setAdopted(boolean adopted) { this.adopted = adopted; }
 
+    // Abstract method (forces subclasses to define their own behavior)
+    public abstract String makeSound();
+
     @Override
     public String toString() {
         return name + " (" + type + ", " + age + " yrs)";
     }
 }
+
