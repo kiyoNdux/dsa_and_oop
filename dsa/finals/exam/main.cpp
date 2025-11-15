@@ -200,10 +200,9 @@ void linear_search(const vector<AIMock> &mocks, const string &name) {
  */
 void binary_search_mocks(vector<AIMock> mocks, const string &name) {
     cout << "\n[BINARY SEARCH RESULTS]" << endl; // Print a header for the results
-    sort(mocks.begin(), mocks.end(), [](const AIMock &a, const AIMock &b)
+    sort(mocks.begin(), mocks.end(), [](const AIMock &a, const AIMock &b) {
         return a.name < b.name;
     });
-
     int left = 0, right = mocks.size() - 1; // Set 'left' index to the start (0) and 'right' index to the end of the list
     bool found = false; // Initialize a flag to track if the name is found
     while (left <= right) { // Loop as long as the 'left' index hasn't crossed the 'right' index
