@@ -171,10 +171,10 @@ void sort_mocks(vector<AIMock> &mocks) {
     }
 
     auto end = high_resolution_clock::now();
-    auto duration = duration_cast<milliseconds>(end - start);
+    auto duration = duration_cast<microseconds>(end - start);
+    cout << "\nSorted successfully using " << sort_name
+         << " in " << duration.count() << " µs!\n";
 
-    cout << "\nSorted successfully using " << sort_name << " in " << duration.count() << " ms!\n";
-    display_mocks(mocks, "After Sorting");
 }
 
 /*
@@ -321,6 +321,7 @@ void benchmark_sorts() {
         }
     }
 }
+
 
 
 /*
