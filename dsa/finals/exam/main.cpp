@@ -272,36 +272,56 @@ vector<AIMock> generate_mocks(int count) {
 void benchmark_sorts() {
     cout << "\n[ALGORITHM RUNTIME BENCHMARK]\n";
 
+    // Data sizes to test
     vector<int> sizes = {10, 100, 1000};
 
     for (int size : sizes) {
         cout << "\nBenchmarking list size: " << size << "\n";
+
         vector<AIMock> base_mocks = generate_mocks(size);
+
+        // If the dataset is too small, inflate it to avoid 0 µs outputs
+        vector<AIMock> testData = base_mocks;
+        if (size < 20) {
+            testData.clear();
+            for (int i = 0; i < 5000; i++) {
+                testData.push_back({"Mock_" + to_string(i), rand() % 101});
+            }
+            cout << "(Dataset auto-expanded to 5000 elements for accurate timings)\n";
+        }
 
         vector<pair<string, void(*)(vector<AIMock>&)>> algorithms = {
             {"Selection Sort", selection_sort},
             {"Insertion Sort", insertion_sort},
-            {"Bubble Sort", bubble_sort}
+            {"Bubble Sort",   bubble_sort}
         };
 
-        // Merge sort handled separately cause of recursion
+        // Benchmark O(n²) sorts
         for (auto &[name, func] : algorithms) {
-            vector<AIMock> data = base_mocks;
+            vector<AIMock> data = testData;
+
             auto start = high_resolution_clock::now();
             func(data);
             auto end = high_resolution_clock::now();
-            cout << setw(20) << left << name << duration_cast<milliseconds>(end - start).count() << " ms\n";
+
+            auto duration = duration_cast<microseconds>(end - start).count();
+            cout << setw(20) << left << name << duration << " µs\n";
         }
 
+        // Benchmark Merge Sort separately (recursive)
+        {
+            vector<AIMock> data = testData;
 
-        //If Mock Vector is used
-        vector<AIMock> data = base_mocks;
-        auto start = high_resolution_clock::now();
-        merge_sort(data, 0, data.size() - 1);
-        auto end = high_resolution_clock::now();
-        cout << setw(20) << left << "Merge Sort" << duration_cast<milliseconds>(end - start).count() << " ms\n";
+            auto start = high_resolution_clock::now();
+            merge_sort(data, 0, data.size() - 1);
+            auto end = high_resolution_clock::now();
+
+            auto duration = duration_cast<microseconds>(end - start).count();
+            cout << setw(20) << left << "Merge Sort" << duration << " µs\n";
+        }
     }
 }
+
 
 /*
  * Main program
