@@ -37,10 +37,10 @@ public abstract class Pet {
     public void setStatus(String status) { this.status = status; }
     public void setAdopted(boolean adopted) { this.adopted = adopted; }
 
-    // Abstract method (forces subclasses to define their own behavior)
+    // Abstract method 
     public abstract String makeSound();
     public abstract String eat();
-
+    
     @Override
     public String toString() {
         return name + " (" + type + ", " + age + " yrs)";

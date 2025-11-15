@@ -12,6 +12,10 @@ struct AIMock {
     double score;
 };
 
+/*
+ * Prints all AI mocks in a formatted table with name and score columns
+ * Parameters: mocks (vector to display), title (optional header for the table)
+ */
 void display_mocks(const vector<AIMock> &mocks, const string &title = "AI Mock Database") {
     cout << "\n[" << title << "]\n";
     cout << left << setw(20) << "Name" << setw(10) << "Score" << endl;
@@ -21,6 +25,10 @@ void display_mocks(const vector<AIMock> &mocks, const string &title = "AI Mock D
     cout << "-----------------------------------\n";
 }
 
+/*
+ * Prompts user to enter a new AI mock's name and accuracy score,
+ * then adds it to the mocks vector.
+ */
 void add_mock(vector<AIMock> &mocks) {
     AIMock mock;
     cout << "\n[ADD NEW AI MOCK]" << endl;
@@ -33,6 +41,10 @@ void add_mock(vector<AIMock> &mocks) {
     cout << "Mock added successfully!\n";
 }
 
+/*
+ * Selection Sort
+ * Time Complexity: O(n²)
+ */
 void selection_sort(vector<AIMock> &mocks) {
     for (size_t i = 0; i < mocks.size() - 1; ++i) {
         size_t min_idx = i;
@@ -44,61 +56,80 @@ void selection_sort(vector<AIMock> &mocks) {
     }
 }
 
+/*
+ * Insertion Sort
+ * Time Complexity: O(n²)
+ */
 void insertion_sort(vector<AIMock> &mocks) {
-    for (size_t i = 1; i < mocks.size(); ++i) {
-        AIMock key = mocks[i];
-        int j = i - 1;
-        while (j >= 0 && mocks[j].score > key.score) {
-            mocks[j + 1] = mocks[j];
-            --j;
+    for (size_t i = 1; i < mocks.size(); ++i) {  // Loop through the list, starting from the second item
+        AIMock key = mocks[i];  // Store the current item to be inserted in the correct place
+        int j = i - 1;  // Start comparing with the item just before the current one
+        while (j >= 0 && mocks[j].score > key.score) {  // Loop backwards while the item being compared is larger than the 'key'
+            mocks[j + 1] = mocks[j];  // Move the larger item one position to the right
+            --j;  // Move to the next item to the left for comparison
         }
-        mocks[j + 1] = key;
+        mocks[j + 1] = key;  // Insert the 'key' (current item) into its correct sorted position
     }
 }
 
+/*
+ *Bubble Sort
+ * Time Complexity: O(n²)
+ */
 void bubble_sort(vector<AIMock> &mocks) {
-    for (size_t i = 0; i < mocks.size() - 1; ++i) {
-        for (size_t j = 0; j < mocks.size() - i - 1; ++j) {
-            if (mocks[j].score > mocks[j + 1].score)
-                swap(mocks[j], mocks[j + 1]);
+    for (size_t i = 0; i < mocks.size() - 1; ++i) {  // Make sure we make enough passes to sort the whole list
+        for (size_t j = 0; j < mocks.size() - i - 1; ++j) {  // Compares adjacent elements for one pass
+            if (mocks[j].score > mocks[j + 1].score)  // Check if the current item is greater than the next item
+                swap(mocks[j], mocks[j + 1]);  // If it is, swap them so the larger item "bubbles up"
         }
     }
 }
 
+/*
+ * Merges two sorted subarrays into one sorted array
+ * Helper function for merge_sort
+ */
 void merge(vector<AIMock> &mocks, int left, int mid, int right) {
-    int n1 = mid - left + 1;
-    int n2 = right - mid;
-    vector<AIMock> left_half(n1);
-    vector<AIMock> right_half(n2);
+    int n1 = mid - left + 1; // Calculate the size of the first (left) subarray
+    int n2 = right - mid; // Calculate the size of the second (right) subarray
+    vector<AIMock> left_half(n1); // Create a temp array for the left half
+    vector<AIMock> right_half(n2); // Create a temp array for the right half
 
-    for (int i = 0; i < n1; ++i)
+    for (int i = 0; i < n1; ++i) // Copy elements from the main array into the left temp array
         left_half[i] = mocks[left + i];
-    for (int j = 0; j < n2; ++j)
+    for (int j = 0; j < n2; ++j) // Copy elements from the main array into the right temp array
         right_half[j] = mocks[mid + 1 + j];
 
-    int i = 0, j = 0, k = left;
-    while (i < n1 && j < n2) {
-        if (left_half[i].score <= right_half[j].score)
-            mocks[k++] = left_half[i++];
+    int i = 0, j = 0, k = left; // Initialize 'i' for left, 'j' for right, 'k' for the main array
+    while (i < n1 && j < n2) { // Loop while there are elements in both temp arrays
+        if (left_half[i].score <= right_half[j].score) // Check which element is smaller
+            mocks[k++] = left_half[i++]; // Copy the smaller element from the left half back to the main array and advance both indices
         else
-            mocks[k++] = right_half[j++];
+            mocks[k++] = right_half[j++]; // Copy the smaller element from the right half back to the main array and advance both indices
     }
 
-    while (i < n1)
-        mocks[k++] = left_half[i++];
-    while (j < n2)
-        mocks[k++] = right_half[j++];
+    while (i < n1) // If the left half still has remaining elements...
+        mocks[k++] = left_half[i++]; // ...copy them all to the main array
+    while (j < n2) // If the right half still has remaining elements...
+        mocks[k++] = right_half[j++]; // ...copy them all to the main array
 }
-
+/*
+ * Merge Sort algorithm
+ * Time Complexity: O(n log n)
+ */
 void merge_sort(vector<AIMock> &mocks, int left, int right) {
-    if (left < right) {
-        int mid = left + (right - left) / 2;
-        merge_sort(mocks, left, mid);
-        merge_sort(mocks, mid + 1, right);
-        merge(mocks, left, mid, right);
+    if (left < right) { // Base case: Only proceed if the segment has more than one element
+        int mid = left + (right - left) / 2; // Find the middle point to split the array
+        merge_sort(mocks, left, mid); // Recursively sort the left half
+        merge_sort(mocks, mid + 1, right); // Recursively sort the right half
+        merge(mocks, left, mid, right); // Merge the two sorted halves back together
     }
 }
 
+/*
+ * Menu for sorting AI mocks by score
+ * Allows user to select a sorting algorithm and displays before/after results with runtime.
+ */
 void sort_mocks(vector<AIMock> &mocks) {
     if (mocks.empty()) {
         cout << "\nNo mocks to sort.\n";
@@ -146,41 +177,54 @@ void sort_mocks(vector<AIMock> &mocks) {
     display_mocks(mocks, "After Sorting");
 }
 
+/*
+ * Searches for an AI mock by name using Linear Search
+ * Time Complexity: O(n)
+ */
 void linear_search(const vector<AIMock> &mocks, const string &name) {
-    cout << "\n[LINEAR SEARCH RESULTS]" << endl;
-    bool found = false;
-    for (const auto &mock : mocks) {
-        if (mock.name == name) {
-            cout << "Found: " << mock.name << " | Score: " << mock.score << endl;
-            found = true;
+    cout << "\n[LINEAR SEARCH RESULTS]" << endl; // Print a header for the search results
+    bool found = false; // Initialize a flag to track if the name is found
+    for (const auto &mock : mocks) { // Loop through every single item ('mock') in the list
+        if (mock.name == name) { // Check if the current item's name matches the target name
+            cout << "Found: " << mock.name << " | Score: " << mock.score << endl; // If matched, print the details
+            found = true; // Set the flag to true because a match was found
         }
     }
-    if (!found) cout << "No mock found with that name.\n";
+    if (!found) cout << "No mock found with that name.\n"; // After checking all items, if the flag is still false, print a 'not found' message
 }
 
+/*
+ * Searches for an AI mock by name using Binary Searc
+ * Note: First sorts mocks by name (requires sorted data)
+ * Time Complexity: O(log n)
+ */
 void binary_search_mocks(vector<AIMock> mocks, const string &name) {
-    cout << "\n[BINARY SEARCH RESULTS]" << endl;
-    sort(mocks.begin(), mocks.end(), [](const AIMock &a, const AIMock &b) {
+    cout << "\n[BINARY SEARCH RESULTS]" << endl; // Print a header for the results
+    sort(mocks.begin(), mocks.end(), [](const AIMock &a, const AIMock &b)
         return a.name < b.name;
     });
 
-    int left = 0, right = mocks.size() - 1;
-    bool found = false;
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (mocks[mid].name == name) {
-            cout << "Found: " << mocks[mid].name << " | Score: " << mocks[mid].score << endl;
-            found = true;
-            break;
+    int left = 0, right = mocks.size() - 1; // Set 'left' index to the start (0) and 'right' index to the end of the list
+    bool found = false; // Initialize a flag to track if the name is found
+    while (left <= right) { // Loop as long as the 'left' index hasn't crossed the 'right' index
+        int mid = left + (right - left) / 2; // Calculate the middle index of the current search segment
+        if (mocks[mid].name == name) { // Check if the item at the middle is the one we are looking for
+            cout << "Found: " << mocks[mid].name << " | Score: " << mocks[mid].score << endl; // If matched, print the details
+            found = true; // Set the flag to true
+            break; // Stop the search loop immediately
         }
-        if (mocks[mid].name < name)
-            left = mid + 1;
-        else
-            right = mid - 1;
+        if (mocks[mid].name < name) // If the middle name is alphabetically *before* the target name...
+            left = mid + 1; // ...discard the left half and move the 'left' index past the middle
+        else // Otherwise (if the middle name is *after* the target name)...
+            right = mid - 1; // ...discard the right half and move the 'right' index before the middle
     }
-    if (!found) cout << "No mock found with that name.\n";
+    if (!found) cout << "No mock found with that name.\n"; // If the loop finishes without finding the name, print a message
 }
 
+/*
+ * Menu for searching AI mocks by name
+ * Allows user to choose between Linear Search and Binary Search algorithms
+ */
 void search_mocks(const vector<AIMock> &mocks) {
     if (mocks.empty()) {
         cout << "\nNo mocks to search.\n";
@@ -207,7 +251,10 @@ void search_mocks(const vector<AIMock> &mocks) {
     }
 }
 
-// Utility to generate random mock data
+/*
+ * Generates random AI mock data for testing and benchmarking purposes
+ * Returns a vector of randomly generated mocks with random scores (0-100)
+ */
 vector<AIMock> generate_mocks(int count) {
     vector<AIMock> mocks;
     for (int i = 0; i < count; ++i) {
@@ -219,7 +266,10 @@ vector<AIMock> generate_mocks(int count) {
     return mocks;
 }
 
-// Compare runtimes of all sorts
+/*
+ * Compares runtime performance of all sorting algorithms on different data sizes
+ * Tests with 10, 100, and 1000 elements to show algorithmic complexity in practice
+ */
 void benchmark_sorts() {
     cout << "\n[ALGORITHM RUNTIME BENCHMARK]\n";
 
@@ -235,7 +285,7 @@ void benchmark_sorts() {
             {"Bubble Sort", bubble_sort}
         };
 
-        // Merge sort handled separately due to recursion
+        // Merge sort handled separately cause of recursion
         for (auto &[name, func] : algorithms) {
             vector<AIMock> data = base_mocks;
             auto start = high_resolution_clock::now();
@@ -244,6 +294,8 @@ void benchmark_sorts() {
             cout << setw(20) << left << name << duration_cast<milliseconds>(end - start).count() << " ms\n";
         }
 
+
+        //If Mock Vector is used
         vector<AIMock> data = base_mocks;
         auto start = high_resolution_clock::now();
         merge_sort(data, 0, data.size() - 1);
@@ -252,6 +304,9 @@ void benchmark_sorts() {
     }
 }
 
+/*
+ * Main program
+ */
 int main() {
     vector<AIMock> mocks;
     int choice;
