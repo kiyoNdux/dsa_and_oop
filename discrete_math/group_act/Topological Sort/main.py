@@ -16,9 +16,12 @@ TEXT_DARK = PRIMARY_DARK
 # Button Color Enhancements:
 BUTTON_NORMAL = (236, 240, 241) # Lighter neutral base (cloud)
 BUTTON_HOVER = (210, 215, 218) # Slightly darker on hover
-BUTTON_ACTIVE = SECONDARY_ACCENT 
+BUTTON_ACTIVE = SECONDARY_ACCENT # Primary action color (blue)
 BUTTON_BORDER = (189, 195, 199) # Darker border for depth
 BUTTON_PRIMARY_HOVER = (84, 172, 239) # Lighter blue hover
+
+# UI FIX: New color for active toggle states (using VISITED_COLOR for contrast)
+TOGGLE_ACTIVE = VISITED_COLOR 
 
 EDGE_TEMP = (255, 99, 71) 
 
@@ -32,6 +35,7 @@ GRAPH_AREA_RECT = pygame.Rect(10, 10, 560, 420)
 class Button:
     def __init__(self, x, y, w, h, text, is_primary=False, is_toggle=False):
         self.rect = pygame.Rect(x, y, w, h)
+        self.base_text = text # Store original text for toggle
         self.text = text
         self.is_primary = is_primary
         self.is_toggle = is_toggle
@@ -43,11 +47,13 @@ class Button:
         is_pressed = self.is_toggle and self.is_active
 
         if is_pressed:
-            base_color = BUTTON_ACTIVE
-            border_color = SECONDARY_ACCENT # No distinct border for pressed
+            # UI FIX: Use TOGGLE_ACTIVE for active toggle buttons
+            base_color = TOGGLE_ACTIVE 
+            border_color = TOGGLE_ACTIVE 
             text_color = TEXT_LIGHT
         elif self.is_primary:
-            base_color = SECONDARY_ACCENT
+            # Primary action buttons remain blue
+            base_color = BUTTON_ACTIVE
             border_color = (41, 115, 169) # Darker blue for depth
             text_color = TEXT_LIGHT
         else: # Normal button
@@ -58,19 +64,16 @@ class Button:
         # 2. Apply hover effect
         if self.hovered and not is_pressed:
             if self.is_primary:
-                base_color = BUTTON_PRIMARY_HOVER # Lighter blue for primary hover
+                base_color = BUTTON_PRIMARY_HOVER 
             else:
-                base_color = BUTTON_HOVER # Darker gray for normal hover
+                base_color = BUTTON_HOVER 
         
         # 3. Draw Shadow/Border (creates the depth effect)
-        # Only draw the bottom border if the button is NOT pressed
         if not is_pressed:
-            # Draw a bottom rectangle that is slightly darker
             border_rect = pygame.Rect(self.rect.left, self.rect.top + 2, self.rect.width, self.rect.height - 2)
             pygame.draw.rect(surf, border_color, border_rect, border_radius=BORDER_RADIUS)
 
         # 4. Draw main rectangle
-        # Shift the rectangle up by 2 pixels if it's pressed for a "pushed down" look
         draw_rect = self.rect
         if is_pressed:
             draw_rect = pygame.Rect(self.rect.left, self.rect.top + 2, self.rect.width, self.rect.height - 2)
@@ -78,6 +81,7 @@ class Button:
         pygame.draw.rect(surf, base_color, draw_rect, border_radius=BORDER_RADIUS)
         
         # 5. Draw text
+        # If text has been dynamically changed (like Pause/Resume) use the current text
         txt = font.render(self.text, True, text_color)
         
         # Center the text within the drawn rectangle
@@ -97,17 +101,14 @@ class GraphVisualizer:
         self.node_colors = {n: SECONDARY_ACCENT for n in nodes}
         self.is_running = False
         self.is_paused = False
-        self.is_step_mode = False # NEW: Flag for step-by-step
+        self.is_step_mode = False 
         self.steps = []
         self.current_index = 0
-        self.interval = 700 # ms between steps (used only if not in step mode)
+        self.interval = 700 
         self.last_time = 0
         
-        # FIX: Ensure next_node_id is 1 if nodes is empty.
         self.next_node_id = 1 + max(self.nodes.keys(), default=0)
-        
-        # For manual graph creation
-        self.temp_edge_start = None # Node ID of the start of a temporary edge
+        self.temp_edge_start = None 
 
     def find_node_at(self, pos):
         """Returns the node ID at the given (x,y) position or None."""
@@ -138,7 +139,7 @@ class GraphVisualizer:
         self.edges = []
         self.node_colors = {}
         self.next_node_id = 1
-        self.reset() # Also clear visualization state
+        self.reset() 
 
     def draw(self, surf, font, mouse_pos=None):
         # graph background
@@ -215,7 +216,7 @@ class GraphVisualizer:
         p3 = (px + math.cos(angle-2.4)*arrow, py + math.sin(angle-2.4)*arrow)
         pygame.draw.polygon(surf, color, [p1,p2,p3])
 
-    def set_steps(self, steps, is_step_mode=False, interval_ms=700): # NEW: added is_step_mode parameter
+    def set_steps(self, steps, is_step_mode=False, interval_ms=700): 
         self.steps = steps
         self.current_index = 0
         self.interval = interval_ms
@@ -223,11 +224,10 @@ class GraphVisualizer:
         self.last_time = pygame.time.get_ticks()
         self.is_running = True
         self.is_paused = is_step_mode # Auto-pause if in step mode
-        # reset visual colors for any nodes not already visited
         for n in self.node_colors:
             self.node_colors[n] = SECONDARY_ACCENT
 
-    def advance_step(self): # NEW: Manual step advancement
+    def advance_step(self): 
         if not self.is_running or self.current_index >= len(self.steps):
             return
             
@@ -237,10 +237,9 @@ class GraphVisualizer:
         
         if self.current_index >= len(self.steps):
              self.is_running = False
-             self.is_paused = False # Ensure pause state is cleared on finish
+             self.is_paused = False 
 
     def update(self):
-        # NEW: Skip timer logic if in manual step mode
         if self.is_step_mode:
             return 
             
@@ -250,13 +249,13 @@ class GraphVisualizer:
 
         now = pygame.time.get_ticks()
         if now - self.last_time >= self.interval:
-            self.advance_step() # Use advance_step logic
+            self.advance_step() 
             self.last_time = now
 
     def reset(self):
         self.is_running = False
         self.is_paused = False
-        self.is_step_mode = False # NEW: Reset step mode flag
+        self.is_step_mode = False 
         self.steps = []
         self.current_index = 0
         self.temp_edge_start = None
@@ -293,8 +292,7 @@ def topological_sort_dfs(graph, nodes):
                 is_cyclic = True 
             if v not in visited:
                 dfs(v)
-            # IMPORTANT: Continue even if a cycle is found to complete the visual traversal
-        
+            
         recursion_stack.remove(u)
         steps.append((u, VISITED_COLOR))
         
@@ -311,7 +309,6 @@ def topological_sort_kahn(graph, nodes, edges):
     
     # Build adj list and in-degree
     for u,v in edges:
-        # Check if nodes exist, though they should if edges are properly created
         if v in in_deg:
             adj[u].append(v)
             in_deg[v] += 1
@@ -340,8 +337,6 @@ def topological_sort_kahn(graph, nodes, edges):
     # Cycle detected if not all nodes were included in the topological order
     is_cyclic = (len(result) != len(nodes))
     
-    # Isolated nodes are correctly handled here: they start with in_deg=0 and are immediately processed.
-    
     return steps, is_cyclic
 
 class TopologicalSortApp:
@@ -353,7 +348,6 @@ class TopologicalSortApp:
     
     def __init__(self):
         pygame.init()
-        # laptop-friendly window
         self.width, self.height = 900, 600
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("Topological Sort Visualizer")
@@ -373,9 +367,9 @@ class TopologicalSortApp:
         self.topo_result = []
 
         self.cycle_detected = False
-        self.step_mode_active = False # NEW: Toggles step mode
+        self.step_mode_active = False 
         
-        self.mode = self.MODE_NODE # Start in Node Creation Mode for easy setup
+        self.mode = self.MODE_NODE 
         
         # --- Buttons Positions ---
         bx1, by = 30, 450
@@ -406,18 +400,17 @@ class TopologicalSortApp:
         bx3 = bx1 + 190
         self.buttons.update({
             "run": Button(bx3, by_c, 80, 40, "Run", is_primary=True),
-            "pause": Button(bx3 + 90, by_c, 80, 40, "Pause"),
-            "resume": Button(bx3 + 180, by_c, 90, 40, "Resume"),
-            "reset": Button(bx3 + 280, by_c, 90, 40, "Reset"),
+            "pause": Button(bx3 + 90, by_c, 100, 40, "Pause", is_toggle=True), # Pause is now a toggle
+            "reset": Button(bx3 + 200, by_c, 90, 40, "Reset"),
         })
         
-        # NEW: Step Mode & Step Button
+        # Step Mode & Step Button
         by_s = by_c + 50
         self.buttons.update({
             "step_mode_toggle": Button(bx1, by_s, 110, 40, "Step Mode", is_toggle=True),
-            "step_forward": Button(bx1 + 120, by_s, 110, 40, "Next Step", is_primary=True) # Right arrow unicode
+            "step_forward": Button(bx1 + 120, by_s, 110, 40, "Step \u25B6", is_primary=True) 
         })
-        self.buttons["step_forward"].is_active = False # Disable unless step mode is active
+        self.buttons["step_forward"].is_active = False 
 
     def get_adj_list(self):
         """Converts current edges list to an adjacency list for the algorithms."""
@@ -427,7 +420,6 @@ class TopologicalSortApp:
         return adj
         
     def run_algorithm(self):
-        # Prevent running if already simulating or graph is empty
         if self.visualizer.is_running and not self.visualizer.is_paused:
             return
             
@@ -439,7 +431,6 @@ class TopologicalSortApp:
         self.topo_result = []
         self.cycle_detected = False
         
-        # Construct the graph based on user input
         graph_adj = self.get_adj_list()
         nodes_keys = self.visualizer.nodes.keys()
         
@@ -451,22 +442,22 @@ class TopologicalSortApp:
         if is_cyclic:
             self.cycle_detected = True
             
-        # Start visualization
         self.visualizer.set_steps(steps, is_step_mode=self.step_mode_active, interval_ms=700)
-        self.mode = self.MODE_RUNNING # Lock out construction tools
+        self.mode = self.MODE_RUNNING 
         self.update_mode_buttons()
         
-        # Update step forward button visibility
         self.buttons["step_forward"].is_active = self.visualizer.is_step_mode and self.visualizer.is_running
-        
+        self.buttons["pause"].is_active = self.visualizer.is_paused # Activate pause toggle if in step mode
+        self.update_pause_text()
+
 
     def set_mode(self, new_mode):
         """Changes the current application mode."""
         if self.visualizer.is_running:
-            return # Cannot change mode while running simulation
+            return 
             
         self.mode = new_mode
-        self.visualizer.temp_edge_start = None # Clear any temp edge on mode change
+        self.visualizer.temp_edge_start = None 
         self.update_mode_buttons()
         
     def update_mode_buttons(self):
@@ -475,34 +466,35 @@ class TopologicalSortApp:
         self.buttons["create_node"].is_active = (self.mode == self.MODE_NODE)
         self.buttons["create_edge"].is_active = (self.mode == self.MODE_EDGE)
         
+    # NEW: Function to dynamically change Pause/Resume button text
+    def update_pause_text(self):
+        if self.visualizer.is_paused and self.visualizer.is_running and not self.visualizer.is_step_mode:
+            self.buttons["pause"].text = "Resume"
+        else:
+            self.buttons["pause"].text = "Pause"
+        
     def handle_graph_area_click(self, pos):
         """Handles mouse clicks inside the main graph drawing area."""
         
         clicked_node_id = self.visualizer.find_node_at(pos)
 
         if self.mode == self.MODE_NODE:
-            # 1. Node Creation Mode: Just create a new node at click location
             if clicked_node_id is None:
                 self.visualizer.add_node(pos)
 
         elif self.mode == self.MODE_EDGE:
-            # 2. Edge Creation Mode
             if clicked_node_id is not None:
                 if self.visualizer.temp_edge_start is None:
-                    # Start of edge
                     self.visualizer.temp_edge_start = clicked_node_id
                 else:
-                    # End of edge
                     u = self.visualizer.temp_edge_start
                     v = clicked_node_id
                     self.visualizer.add_edge(u, v)
-                    self.visualizer.temp_edge_start = None # Reset for next edge
+                    self.visualizer.temp_edge_start = None 
             else:
-                # Clicked outside a node, cancel temp edge creation
                 self.visualizer.temp_edge_start = None
                 
         elif self.mode == self.MODE_SELECT:
-            # 3. Selection Mode: Allows for node interaction/movement if implemented
             pass 
 
     def handle_events(self):
@@ -518,13 +510,10 @@ class TopologicalSortApp:
             elif ev.type == pygame.MOUSEBUTTONDOWN and ev.button==1:
                 pos = ev.pos
                 
-                # Check if click is in the graph area
                 if GRAPH_AREA_RECT.collidepoint(pos) and not self.visualizer.is_running:
                     self.handle_graph_area_click(pos)
                     continue
 
-                # Handle button clicks
-                
                 # --- Tool Toggles ---
                 if self.buttons["select_mode"].clicked(pos):
                     self.set_mode(self.MODE_SELECT)
@@ -538,7 +527,7 @@ class TopologicalSortApp:
                     self.visualizer.clear_graph()
                     self.topo_result = []
                     self.cycle_detected = False
-                    self.set_mode(self.MODE_NODE) # Revert to Node creation mode
+                    self.set_mode(self.MODE_NODE) 
 
                 # --- Algorithm Toggles ---
                 elif self.buttons["dfs"].clicked(pos):
@@ -559,12 +548,15 @@ class TopologicalSortApp:
                 # --- Simulation Controls ---
                 elif self.buttons["run"].clicked(pos):
                     self.run_algorithm()
-                elif self.buttons["pause"].clicked(pos):
-                    self.visualizer.is_paused = True
-                elif self.buttons["resume"].clicked(pos):
-                    if self.visualizer.steps and not self.visualizer.is_step_mode:
-                        self.visualizer.is_paused = False
+                
+                # UI FIX: Pause/Resume logic simplified and handled by the toggle button
+                elif self.buttons["pause"].clicked(pos) and self.visualizer.is_running and not self.visualizer.is_step_mode:
+                    self.visualizer.is_paused = not self.visualizer.is_paused
+                    self.buttons["pause"].is_active = self.visualizer.is_paused
+                    if not self.visualizer.is_paused:
                         self.visualizer.last_time = pygame.time.get_ticks()
+                    self.update_pause_text()
+
                 elif self.buttons["reset"].clicked(pos):
                     self.visualizer.reset()
                     self.topo_result = []
@@ -572,65 +564,53 @@ class TopologicalSortApp:
                     self.step_mode_active = False
                     self.buttons["step_mode_toggle"].is_active = False
                     self.buttons["step_forward"].is_active = False
-                    self.set_mode(self.MODE_NODE) # Revert to Node creation mode
+                    self.buttons["pause"].is_active = False
+                    self.update_pause_text()
+                    self.set_mode(self.MODE_NODE) 
                     
-                # --- NEW Step Controls ---
+                # --- Step Controls ---
                 elif self.buttons["step_mode_toggle"].clicked(pos) and not self.visualizer.is_running:
                     self.step_mode_active = not self.step_mode_active
                     self.buttons["step_mode_toggle"].is_active = self.step_mode_active
-                    # Disable step forward until run is clicked
                     self.buttons["step_forward"].is_active = False 
                 
                 elif self.buttons["step_forward"].clicked(pos) and self.visualizer.is_running and self.visualizer.is_step_mode:
                     self.visualizer.advance_step()
-                    # After advancing, if the simulation finished, disable step forward
                     if not self.visualizer.is_running:
                          self.buttons["step_forward"].is_active = False
 
 
     def update_result_list(self):
-        # Only update the result if a simulation has run
         if not self.visualizer.steps and not self.visualizer.is_running and len(self.topo_result) == 0:
             return
             
-        res = []
-        
         temp_result = []
-        # Keep track of unique nodes added to temp_result in order
         temp_result_set = set() 
         
-        # Only iterate up to the current step
         for i in range(self.visualizer.current_index):
             node, state = self.visualizer.steps[i]
             
             if self.current_algo == "DFS":
-                # DFS: Nodes are conceptually added to the result when they transition to VISITED_COLOR
-                # The order in which they get VISITED_COLOR is the REVERSE topological order.
                 if state == VISITED_COLOR and node not in temp_result_set:
                     temp_result.append(node)
                     temp_result_set.add(node)
                         
             elif self.current_algo == "Kahn's":
-                # Kahn's: Nodes are added to the list when dequeued (marked PROCESSING_COLOR in our step)
-                # We use the VISITED_COLOR state transition to denote completion for consistency.
                 if state == PROCESSING_COLOR and node not in temp_result_set:
                     temp_result.append(node)
                     temp_result_set.add(node)
         
         if self.current_algo == "DFS":
-            # The list of VISITED nodes is collected in reverse topological order, so we reverse it.
             self.topo_result = list(reversed(temp_result))
-        else: # Kahn's
-            # The list of PROCESSING nodes is collected in correct topological order.
+        else: 
             self.topo_result = temp_result
             
-        # If simulation is finished and a cycle was detected, clear the result list
         if not self.visualizer.is_running and self.cycle_detected:
             self.topo_result = []
 
 
     def draw_info_panel(self):
-        # right panel area (rx=590, rw=300)
+        # right panel area 
         rx = 590; ry = 10; rw = self.width - rx - 10; rh = self.height - 20
         pygame.draw.rect(self.screen, GRAPH_BG, (rx,ry,rw,rh), border_radius=BORDER_RADIUS)
         pygame.draw.rect(self.screen, PRIMARY_DARK, (rx,ry,rw,rh), 2, border_radius=BORDER_RADIUS)
@@ -649,8 +629,13 @@ class TopologicalSortApp:
             status_text = "Running..."
             status_color = PROCESSING_COLOR
         elif self.visualizer.is_paused and self.visualizer.is_running:
-            status_text = "Paused (Step Mode Active)" if self.visualizer.is_step_mode else "Paused"
-            status_color = PROCESSING_COLOR
+            # Check if simulation is finished (paused but current_index reached the end)
+            if self.visualizer.current_index >= len(self.visualizer.steps) and len(self.visualizer.steps) > 0:
+                 status_text = "Finished"
+                 status_color = VISITED_COLOR
+            else:
+                 status_text = "Paused (Step Mode Active)" if self.visualizer.is_step_mode else "Paused"
+                 status_color = PROCESSING_COLOR
         elif self.mode != self.MODE_SELECT and self.mode != self.MODE_RUNNING:
             status_text = f"Mode: {self.mode.replace('_', ' ').title()}"
             status_color = PRIMARY_DARK
@@ -663,10 +648,7 @@ class TopologicalSortApp:
 
         # Current step (more concise)
         if self.visualizer.steps:
-            if len(self.visualizer.steps) > 0:
-                progress_percent = int((self.visualizer.current_index / len(self.visualizer.steps)) * 100)
-            else:
-                progress_percent = 0 # Handle division by zero for empty steps
+            progress_percent = int((self.visualizer.current_index / len(self.visualizer.steps)) * 100) if len(self.visualizer.steps) > 0 else 0
             step_txt = self.font_medium.render(f"Progress: {self.visualizer.current_index}/{len(self.visualizer.steps)} steps ({progress_percent}%)", True, PRIMARY_DARK)
             self.screen.blit(step_txt, (rx+15, ty+118))
         else:
@@ -683,13 +665,12 @@ class TopologicalSortApp:
         self.update_result_list()
         res_s = " \u2192 ".join(map(str,self.topo_result)) if self.topo_result else "..."
         
-        # Check for cycle detection
         is_cycle_detected = self.cycle_detected and not self.visualizer.is_running
         
         if is_cycle_detected:
-            if len(self.visualizer.nodes) > 0: # Only report if there are nodes
+            if len(self.visualizer.nodes) > 0: 
                 res_s = "Cycle Detected! \u274C"
-                res_render = self.font_medium.render(res_s, True, PROCESSING_COLOR) # Use the warning color
+                res_render = self.font_medium.render(res_s, True, PROCESSING_COLOR) 
         
         else:
             res_render = self.font_medium.render(res_s, True, VISITED_COLOR)
@@ -744,7 +725,7 @@ class TopologicalSortApp:
             
             # Draw circle/square for color reference
             if text == "Temp Edge":
-                 pygame.draw.rect(self.screen, color, (lx+2, ly+4, 16, 8)) # Use a rectangle for edge
+                 pygame.draw.rect(self.screen, color, (lx+2, ly+4, 16, 8)) 
                  pygame.draw.rect(self.screen, PRIMARY_DARK, (lx+2, ly+4, 16, 8), 1)
             else:
                 pygame.draw.circle(self.screen, color, (lx+10, ly+8), 8)
@@ -756,10 +737,7 @@ class TopologicalSortApp:
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
         mouse_pos = pygame.mouse.get_pos()
-        # left graph area (handled by visualizer)
         self.visualizer.draw(self.screen, self.font_medium, mouse_pos)
-
-        # draw info panel (right)
         self.draw_info_panel()
         
         # draw buttons
