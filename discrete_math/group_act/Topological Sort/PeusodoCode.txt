@@ -1,0 +1,29 @@
+TopologicalSort(Graph):
+    inDegree = array storing in-degrees of all vertices
+    Q = empty queue
+
+    # Step 1: Find all nodes with in-degree 0
+    for each vertex v in Graph:
+        if inDegree[v] == 0:
+            enqueue(Q, v)
+
+    topoOrder = empty list
+
+    # Step 2: Process until queue is empty
+    while Q is not empty:
+        u = dequeue(Q)
+        append u to topoOrder
+
+        # Reduce in-degree of neighbors
+        for each neighbor v of u:
+            inDegree[v] = inDegree[v] - 1
+
+            # If in-degree becomes 0, add to queue
+            if inDegree[v] == 0:
+                enqueue(Q, v)
+
+    # Step 3: Check for cycles
+    if size of topoOrder != number of vertices:
+        print("Cycle detected — topological sort not possible")
+    else:
+        print(topoOrder)
