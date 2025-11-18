@@ -396,25 +396,35 @@ class TopologicalSortApp:
         self.topo_result = []
         self.cycle_detected = False
 
-        graph_adj = self.get_adj_list()
-        nodes_keys = list(self.visualizer.nodes.keys())
+        # --- Normalize node IDs ---
+        nodes_keys = [int(n) for n in self.visualizer.nodes.keys()]
+        edges_norm = [(int(u), int(v)) for (u, v) in self.edges]
 
+        # --- Rebuild adjacency using normalized IDs ---
+        graph_adj = defaultdict(list)
+        for u, v in edges_norm:
+            graph_adj[u].append(v)
+
+        # ensure isolated nodes included
+        for n in nodes_keys:
+            graph_adj[n] = graph_adj[n]
+
+        # --- Execute algorithm ---
         if self.current_algo == "DFS":
             steps, is_cyclic = topological_sort_dfs(graph_adj, nodes_keys)
         else:
-            steps, is_cyclic = topological_sort_kahn(graph_adj, nodes_keys, self.edges)
+            steps, is_cyclic = topological_sort_kahn(graph_adj, nodes_keys, edges_norm)
 
         self.cycle_detected = is_cyclic
 
-        # start visualizer with current step mode setting
         self.visualizer.set_steps(steps, is_step_mode=self.step_mode_active, interval_ms=700)
         self.mode = self.MODE_RUNNING
         self.update_mode_buttons()
 
-        # button states reflect visualizer internal state
         self.buttons["step_forward"].is_active = self.visualizer.is_step_mode and self.visualizer.is_running
         self.buttons["pause"].is_active = self.visualizer.is_paused
         self.update_pause_text()
+
 
     def set_mode(self, new_mode):
         if self.visualizer.is_running:
