@@ -1,1 +1,1 @@
-# Datastructures and Algorithms (ccp) and Object-Oriented Programming (java)
+# Datastructures and Algorithms (cpp) and Object-Oriented Programming (java)
